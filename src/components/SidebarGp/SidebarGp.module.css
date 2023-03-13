@@ -6,10 +6,7 @@
 .container{
     display:flex;
 }
-main{
-    width: 100%;
-    padding: 20px;
-}
+
 
 .textLogo{
     color: white;
@@ -19,6 +16,7 @@ main{
 }
 
 .sidebar{
+    position: fixed;
     background: #292929;
     color: #fff;
     height: 100vh;
@@ -73,6 +71,10 @@ main{
 }
 
 .topbar {
+    display: flex;
+    position: fixed;
+    align-items:center;
+    padding:20px 15px;
     margin: 0;
     background-color: #141414;
     width: 100%;

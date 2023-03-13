@@ -1,15 +1,25 @@
 
 .input {
-    display: block;
-    max-width: 160px;
+    font-size: 16px;
     padding: 10px;
     margin-bottom: 20px;
     margin-top: 5px;
     border-radius: 5px;
     border: 2px solid #ccc;
     box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    width: 100%;
+}
+
+.input[disabled]{
+    color: #000;
+    
 }
 
 .input:focus{
     outline-color: #3364DD;
+}
+
+.inputItem{
+    display: flex;
+    flex-direction: column;
 }

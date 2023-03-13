@@ -1,17 +1,15 @@
-import React from 'react'
-import style from './BotaoContainer.module.css'
+import React from "react";
+import style from "./BotaoContainer.module.css";
 
-import { NavLink } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 
-export const BotaoContainer = ({ children ,name, path,...rest } ) => {
-
-    return (
-    <NavLink to={path}  {...rest}>
-        <div className={style.btn}>
-            {children}
-            {name}
-        </div>
-    </NavLink> 
-  )
-}
-
+export const BotaoContainer = ({ children, name, path, ...rest }) => {
+  return (
+    <NavLink to={path} {...rest}>
+      <div className={style.btn}>
+        {children}
+        <div className={style.ContainerName}>{name}</div>
+      </div>
+    </NavLink>
+  );
+};

@@ -1,36 +1,37 @@
-.form {
-    margin: 40px auto;
-    max-width: 1080px;
-    background-color: #F0F0F0;
-    padding: 0;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
-    border: 3px solid #2859D1;
-
+.containerForm {
+  margin: 40px auto;
+  max-width: 1080px;
+  background-color: #f0f0f0;
+  padding: 0;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  border: 3px solid #2859d1;
 }
 
 .header {
-    height: 40px;
-    width: auto;
-    background-color: #2859D1;
-    border-radius: 5px 5px 0 0;
+  height: 40px;
+  width: auto;
+  background-color: #2859d1;
+  border-radius: 5px 5px 0 0;
 
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .titulo {
-    margin-left: 60px;
-    font-size: 24px;
-    color: white;
-    font-weight: 500;
+  margin-left: 60px;
+  font-size: 24px;
+  color: white;
+  font-weight: 500;
 }
 
 .inputGroup {
-    width: 800px;
-    margin: 0 auto;
-    margin-top: 20px;
-    display: grid;
-    grid-template-columns: 2fr 2fr 5fr;
-    gap: 5px;
+  max-width: 900px;
+  margin: 40px 100px;
+  display: grid;
+  gap: 0 20px;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
 }

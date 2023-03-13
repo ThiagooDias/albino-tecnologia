@@ -24,12 +24,12 @@ export const SidebarGp = ({ children }) => {
     {
       path: "/gp/contrato",
       name: "Contrato",
-      icon: <ContratoIcon />,
+      icon: <ContratoIcon width={32} fill={'#fff'} />,
     },
     {
       path: "/gp/os",
       name: "Ordem de serviço",
-      icon: <OsIcon />,
+      icon: <OsIcon width={32} fill={'#fff'} />,
     }
   ];
 
@@ -37,8 +37,7 @@ export const SidebarGp = ({ children }) => {
     <div className={style.container}>
       <div className={style.sidebar}>
         <div className={style.top_section}>
-          <Logo />
-          <h1 className={style.textLogo}>Albino Tecnologia</h1>
+          
         </div>
 
         {menuItem.map((item, index) => (
@@ -55,8 +54,11 @@ export const SidebarGp = ({ children }) => {
           </NavLink>
         ))}
       </div>
+        <div className={style.topbar}>
+        <Logo />
+          <h1 className={style.textLogo}>Albino <br/>Tecnologia</h1>
+        </div>
       <main style={{ padding: 0 }}>
-        <div className={style.topbar}></div>
         <Outlet />
       </main>
     </div>

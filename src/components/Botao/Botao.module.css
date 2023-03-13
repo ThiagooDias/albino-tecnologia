@@ -1,0 +1,20 @@
+.botao {
+  padding: 10px 20px;
+  color: white;
+  font-size: 18px;
+  background-color: #2859d1;
+  border: none;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 50px;
+}
+
+.Container {
+  max-width: 800px;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 0 auto;
+  margin-bottom: 60px;
+}

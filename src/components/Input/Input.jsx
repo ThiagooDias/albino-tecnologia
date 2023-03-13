@@ -1,18 +1,23 @@
-import React from "react";
+import {React, useRef} from "react";
 import style from "./Input.module.css";
 
-export const Input = ({ id, label, type, name, value, onChange }) => {
-  label = "nome";
+
+export const Input = ({ id, value, label, column, required, onChange, disabled, type}) => {
   return (
-    <div>
-      <label className={style.label} htmlFor={id}>{label}</label>
+    <div className={style.inputItem} style={{ gridColumn: column}} >
+      <label className={style.label} htmlFor={id}>
+        {label}
+      </label>
       <input
         className={style.input}
         id={id}
-        type={type}
-        name={name}
+        name={id}
         value={value}
         onChange={onChange}
+        required={required}
+        readOnly={disabled}
+        type={type}
+
       />
     </div>
   );

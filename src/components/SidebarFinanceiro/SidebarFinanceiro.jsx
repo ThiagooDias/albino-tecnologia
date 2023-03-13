@@ -21,33 +21,29 @@ export const SidebarFinanceiro = ({ children }) => {
     {
       path: "/financeiro/dashboard",
       name: "Dashboard",
-      icon: <DashboardIcon />,
+      icon: <DashboardIcon width={32} fill={"#fff"} />,
     },
     {
       path: "/financeiro/clientes",
       name: "Clientes",
-      icon: <ClienteIcon />,
+      icon: <ClienteIcon width={32} fill={"#fff"} />,
     },
     {
       path: "/financeiro/fornecedores",
       name: "Fornecedores",
-      icon: <FornecedorIcon />,
+      icon: <FornecedorIcon width={32} fill={"#fff"} />,
     },
     {
       path: "/financeiro/contrato",
       name: "Contrato",
-      icon: <ContratoIcon />,
+      icon: <ContratoIcon width={32} fill={"#fff"} />,
     },
   ];
 
   return (
     <div className={style.container}>
       <div className={style.sidebar}>
-        <div className={style.top_section}>
-          <Logo />
-          <h1 className={style.textLogo}>Albino Tecnologia</h1>
-        </div>
-
+        <div className={style.top_section}></div>
         {menuItem.map((item, index) => (
           <NavLink
             to={item.path}
@@ -62,8 +58,11 @@ export const SidebarFinanceiro = ({ children }) => {
           </NavLink>
         ))}
       </div>
+        <div className={style.topbar}>
+          <Logo />
+          <h1 className={style.textLogo}>Albino <br/> Tecnologia</h1>
+        </div>
       <main style={{ padding: 0 }}>
-        <div className={style.topbar}></div>
         <Outlet />
       </main>
     </div>

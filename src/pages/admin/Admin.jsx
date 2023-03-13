@@ -13,9 +13,10 @@ export const Admin = () => {
           <UserIcon />
         </BotaoContainer>
 
-        <BotaoContainer name={"Ver usuários"} path={"/admin/ver-usuario"}>
+        <BotaoContainer name={"Ver usuários"} path={"/admin/usuarios"}>
           <UserIcon />
         </BotaoContainer>
       </div>
+
   );
 };
