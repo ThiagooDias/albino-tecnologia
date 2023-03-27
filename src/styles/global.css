@@ -36,3 +36,29 @@ select[disabled] {
   appearance: none;
 
 }
+
+textarea {
+  font-size: 16px;
+  padding: 10px;
+  margin-bottom: 20px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 2px solid #ccc;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+  width: 100%;
+  resize: none;
+}
+
+textarea:focus {
+  outline-color: #3364DD;
+}
+
+button {
+  padding: 10px 20px;
+  color: white;
+  font-size: 18px;
+  background-color: #2859d1;
+  border: none;
+  border-radius: 4px;
+  display: flex;
+}

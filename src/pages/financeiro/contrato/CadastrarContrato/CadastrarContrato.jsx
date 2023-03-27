@@ -14,12 +14,10 @@ export const CadastrarContrato = () => {
   const [cnpj, setCnpj] = useState("");
   const [numeroDoCadastro, setNumeroDoCadastro] = useState("");
   const [responsavel, setResponsavel] = useState("");
-  const [telefone, setTelefone] = useState("");
-  const [email, setEmail] = useState("");
-  const [CEP, setCEP] = useState("");
-  const [cidade, setCidade] = useState("");
-  const [estado, setEstado] = useState("");
-  const [logadouro, setLogadouro] = useState("");
+  const [dataInicial, setDataInicial] = useState("");
+  const [dataFinal, setDataFinal] = useState("");
+  const [descricao, setDescricao] = useState("");
+ 
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -53,6 +51,7 @@ export const CadastrarContrato = () => {
           id="cnpj"
           value={cnpj}
           required
+      
           onChange={({ target }) => setCnpj(target.value)}
         />
 
@@ -61,6 +60,7 @@ export const CadastrarContrato = () => {
           id="numerodocadastro"
           value={numeroDoCadastro}
           required
+          
           onChange={({ target }) => setNumeroDoCadastro(target.value)}
         />
 
@@ -70,34 +70,38 @@ export const CadastrarContrato = () => {
           column="1 / 3"
           value={responsavel}
           required
+          
           onChange={({ target }) => setResponsavel(target.value)}
         />
 
         <Input
           label="Data Inicial"
-          id="telefone"
-          value={telefone}
+          id="dataInicial"
+          value={dataInicial}
           required
-          type={'date'}
-          onChange={({ target }) => setTelefone(target.value)}
+          
+          type={"date"}
+          onChange={({ target }) => setDataInicial(target.value)}
         />
 
         <Input
           label="Data Final"
-          id="email"
-          value={email}
+          id="dataFinal"
+          value={dataFinal}
           required
-          type={'date'}
-          onChange={({ target }) => setEmail(target.value)}
+          
+          type={"date"}
+          onChange={({ target }) => setDataFinal(target.value)}
         />
       </ContainerFormulario>
 
       <ContainerFormulario titulo="Contrato">
         <div className={style.InputRadio}>
-          <p style={{margin :'0'}}>Tipo do Contrato </p>
+          <p style={{ margin: "0" }}>Tipo do Contrato </p>
           <label>
             <input
               className={style.input}
+              
               type="radio"
               value="service"
               checked={tipoContrato === "service"}
@@ -108,6 +112,7 @@ export const CadastrarContrato = () => {
           <label>
             <input
               className={style.input}
+              
               type="radio"
               value="product"
               checked={tipoContrato === "product"}
@@ -117,33 +122,16 @@ export const CadastrarContrato = () => {
           </label>
         </div>
 
-        <Input
-          label="Valor"
-          id="cidade"
-          value={cidade}
-          required
-          onChange={({ target }) => setCidade(target.value)}
-        />
-
-        <Input
-          label="Condições de Pagamento"
-          id="uf"
-          value={estado}
-          required
-          onChange={({ target }) => setEstado(target.value)}
-          column="3 / -1"
-        />
-
-        <Input
-        style={{height: '100px'}}
-          label="Descrição"
-          id="logadouro"
-          value={logadouro}
-          required
-          column="1 / -1"
-          type={'text-area'}
-          onChange={({ target }) => setLogadouro(target.value)}
-        />
+        <div style={{ gridColumn: "1/-1" }}>
+          <label htmlFor="descricao">Descrição</label>
+          <textarea
+            rows={10}
+            id="descricao"
+            
+            value={descricao}
+            onChange={({ target }) => setDescricao(target.value)}
+          />
+          </div>
       </ContainerFormulario>
       <Botao name={"ENVIAR"} />
     </form>

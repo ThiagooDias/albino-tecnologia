@@ -13,7 +13,7 @@ export const Os = () => {
           <OsIcon width={48} fill={'#4D7BEB'}/>
         </BotaoContainer>
 
-        <BotaoContainer name={"Ver Os"} path={"/gp/os/lista"}>
+        <BotaoContainer name={"Painel de Os"} path={"/gp/os/painel"}>
           <OsIcon width={48} fill={'#4D7BEB'}/>
         </BotaoContainer>
       </div>

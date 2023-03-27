@@ -19,6 +19,7 @@ export const VerOs = () => {
 
     // Adicione mais OSs aqui
   ];
+
   const openOSList = osList.filter((os) => os.status === "Aberto");
   const runningOSList = osList.filter((os) => os.status === "Em execução");
   const finishedOSList = osList.filter((os) => os.status === "Finalizada");
@@ -29,34 +30,19 @@ export const VerOs = () => {
 
       <div className={style.ContainerCard}>
         {openOSList.map((os) => (
-          <CardOS
-            path={"detalhes/:id"}
-            key={os.id}
-            os={os}
-            onClick={() => console.log("OS Aberto clicada")}
-          />
+          <CardOS key={os.id} os={os} />
         ))}
       </div>
       <h2 className={style.Titulo}>Em execução</h2>
       <div className={style.ContainerCard}>
         {runningOSList.map((os) => (
-          <CardOS
-            path={"detalhes/:id"}
-            key={os.id}
-            os={os}
-            onClick={() => console.log("OS Em execução clicada")}
-          />
+          <CardOS key={os.id} os={os} />
         ))}
       </div>
       <h2 className={style.Titulo}>Finalizada</h2>
       <div className={style.ContainerCard}>
         {finishedOSList.map((os) => (
-          <CardOS
-            path={"detalhes/:id"}
-            key={os.id}
-            os={os}
-            onClick={() => console.log("OS Finalizada clicada")}
-          />
+          <CardOS key={os.id} os={os} />
         ))}
       </div>
     </div>

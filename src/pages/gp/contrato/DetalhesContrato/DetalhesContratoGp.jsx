@@ -1,4 +1,5 @@
 import { React, useState } from "react";
+import { useParams } from "react-router-dom";
 import style from "./DetalhesContratoGp.module.css";
 import { ContainerFormulario } from "../../../../components/Formulario/Formulario";
 import { Input } from "../../../../components/Input/Input";
@@ -14,40 +15,43 @@ export const DetalhesContratoGp = () => {
   const [cnpj, setCnpj] = useState("");
   const [numeroDoCadastro, setNumeroDoCadastro] = useState("");
   const [responsavel, setResponsavel] = useState("");
-  const [telefone, setTelefone] = useState("");
-  const [email, setEmail] = useState("");
-  const [cidade, setCidade] = useState("");
-  const [estado, setEstado] = useState("");
-  const [logadouro, setLogadouro] = useState("");
+  const [dataInicial, setDataInicial] = useState("");
+  const [dataFinal, setDataFinal] = useState("");
+  const [descricao, setDescricao] = useState("");
   const [tipoContrato, setTipoContrato] = useState("");
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(event);
-  };
+  const contratoList = [
+    { id: 1, name: "OS 1", status: "Aberto" },
+    { id: 2, name: "OS 2", status: "Em execução" },
+  ];
+
+  const { id } = useParams();
+  const contrato = contratoList.find((contrato) => contrato.id.toString() === id);
+
+  function execetuarContrato() {
+    window.history.back();
+    window.alert('Contrato executado com sucesso!');
+    console.log("executou");
+  }
+  function adcionarAditivo() {
+    window.history.back();
+    window.alert('Aditivo adcionado com sucesso!');
+    console.log("executou");
+  }
 
 
   return (
-    <form className={style.form} onSubmit={handleSubmit}>
+    <div>
       <ContainerFormulario titulo="Cliente">
-        <div style={{ gridColumn: "1 /3" }}>
-          <label htmlFor="razao-social">Razão Social</label>
-          <select
-            id="razao-social"
-            value={razaoSocial}
-            disabled
-            onChange={({ target }) => setRazaoSocial(target.value)}
-          >
-            <option disabled value="">
-              Selecione uma opção
-            </option>
-            {ListRazaoSocial.map((empresa) => (
-              <option key={empresa.id} value={empresa.id}>
-                {empresa.name}
-              </option>
-            ))}
-          </select>
-        </div>
+      <Input
+          label="Razão social"
+          id="razaoSocial"
+          value={razaoSocial}
+          required
+          column={'1/3'}
+          disabled
+          onChange={({ target }) => setRazaoSocial(target.value)}
+        />
 
         <Input
           label="CNPJ"
@@ -79,22 +83,22 @@ export const DetalhesContratoGp = () => {
 
         <Input
           label="Data Inicial"
-          id="telefone"
-          value={telefone}
+          id="dataInicial"
+          value={dataInicial}
           required
           disabled
           type={"date"}
-          onChange={({ target }) => setTelefone(target.value)}
+          onChange={({ target }) => setDataInicial(target.value)}
         />
 
         <Input
           label="Data Final"
-          id="email"
-          value={email}
+          id="dataFinal"
+          value={dataFinal}
           required
           disabled
           type={"date"}
-          onChange={({ target }) => setEmail(target.value)}
+          onChange={({ target }) => setDataFinal(target.value)}
         />
       </ContainerFormulario>
 
@@ -125,40 +129,20 @@ export const DetalhesContratoGp = () => {
           </label>
         </div>
 
-        <Input
-          label="Valor"
-          id="cidade"
-          value={cidade}
-          required
-          disabled
-
-          onChange={({ target }) => setCidade(target.value)}
-        />
-
-        <Input
-          label="Condições de Pagamento"
-          id="uf"
-          value={estado}
-          required
-          disabled
-
-          onChange={({ target }) => setEstado(target.value)}
-          column="3 / -1"
-        />
-
-        <Input
-          style={{ height: "100px" }}
-          label="Descrição"
-          id="logadouro"
-          value={logadouro}
-          required
-          disabled
-
-          column="1 / -1"
-          type={"text-area"}
-          onChange={({ target }) => setLogadouro(target.value)}
-        />
+        <div style={{ gridColumn: "1/-1" }}>
+          <label htmlFor="descricao">Descrição</label>
+          <textarea
+            rows={10}
+            id="descricao"
+            disabled
+            value={descricao}
+            onChange={({ target }) => setDescricao(target.value)}
+          />
+        </div>
       </ContainerFormulario>
-    </form>
+      {contrato && contrato.status === 'Aberto' && <Botao name={"EXECUTAR"} onClick={execetuarContrato} />}
+      {contrato && contrato.status === 'Em execução' && <Botao name={"ADICIONAR ADTIVO"} onClick={execetuarContrato} />}
+
+    </div>
   );
 };

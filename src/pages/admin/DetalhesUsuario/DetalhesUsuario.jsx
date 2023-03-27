@@ -1,43 +1,206 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 import style from "./DetalhesUsuario.module.css";
 import { ContainerFormulario } from "../../../components/Formulario/Formulario";
 import { Input } from "../../../components/Input/Input";
 import { Botao } from "../../../components/Botao/Botao";
 
 export const DetalhesUsuario = () => {
-  // dados do usuario
-  const user = {
-    id: "5555",
-    nome: "joao",
-    email: "example@example.com",
-    senha: "qwe123",
-    tipoUsuario: "financeiro",
+  const [user, setUser] = useState({});
+
+  const { id } = useParams();
+
+  let usuario = localStorage.getItem("username");
+  let password = localStorage.getItem("password");
+
+  usuario = "admin";
+  password = "senha123";
+
+  function gerarCredencialBase64(username, password) {
+    var token = username + ":" + password;
+    var hash = btoa(token); // codifica a string em Base64
+    return "Basic " + hash; // adiciona o prefixo "Basic" e retorna a credencial
+  }
+  const credencial = gerarCredencialBase64(usuario, password);
+
+  // GET
+  const getUser = async () => {
+    try {
+      let data = JSON.stringify({
+        id: id,
+      });
+
+      const config = {
+        mode: "no-cors",
+        method: "get",
+        maxBodyLength: Infinity,
+        url: `http://34.16.131.174/api/v1/usuario/${id}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: credencial,
+        },
+        data: data,
+      };
+
+      const response = await axios.request(config);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getUser();
+      setUser(data);
+    };
+    fetchData();
+  }, []);
+
+  //PUT - ATUALIZAR
+  const putUser = async () => {
+    let roleIds;
+    const roleName = user.roles[0].roleName;
+    if (roleName === "ROLE_ADMIN") {
+      roleIds = 1;
+    } else if (roleName === "ROLE_FINANCEIRO") {
+      roleIds = 3;
+    } else if (roleName === "ROLE_DIRETOR") {
+      roleIds = 4;
+    } else if (roleName === "ROLE_GPP") {
+      roleIds = 2;
+    } else if (roleName === "ROLE_GP") {
+      roleIds = 5;
+    }
+
+    try {
+      let data = JSON.stringify({
+        nome: nome,
+        username: userName,
+        password: senha,
+        email: email,
+        roleIds: [roleIds],
+      });
+
+      const config = {
+        mode: "no-cors",
+        method: "put",
+        maxBodyLength: Infinity,
+        url: `http://34.16.131.174/api/v1/usuario/${id}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: credencial,
+        },
+        data: data,
+      };
+
+      const response = await axios.request(config);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // DELETE
+  const deleteUser = async () => {
+    try {
+      let data = JSON.stringify({
+        id: id,
+      });
+
+      const config = {
+        mode: "no-cors",
+        method: "delete",
+        maxBodyLength: Infinity,
+        url: `http://34.16.131.174/api/v1/usuario/${id}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: credencial,
+        },
+        data: data,
+      };
+
+      const response = await axios.request(config);
+      console.log(response)
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // defindo estados
-  const [nome, setNome] = useState(user.nome);
-  const [matricula, setMatricula] = useState(user.id);
-  const [email, setEmail] = useState(user.email);
-  const [senha, setSenha] = useState(user.senha);
-  const [tipoUsuario, setTipoUsuario] = useState(user.tipoUsuario);
+  const [nome, setNome] = useState("");
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [tipoUsuario, setTipoUsuario] = useState("");
+
+  useEffect(() => {
+    setNome(user.nome);
+    setUserName(user.username);
+    setEmail(user.email);
+    setSenha(user.password);
+
+    if (user.roles && user.roles.length > 0) {
+      const roleName = user.roles[0].roleName;
+      if (roleName === "ROLE_ADMIN") {
+        setTipoUsuario("Admin");
+      } else if (roleName === "ROLE_FINANCEIRO") {
+        setTipoUsuario("Financeiro");
+      } else if (roleName === "ROLE_DIRETOR") {
+        setTipoUsuario("Diretor");
+      } else if (roleName === "ROLE_GPP") {
+        setTipoUsuario("Gpp");
+      } else if (roleName === "ROLE_GP") {
+        setTipoUsuario("Gp");
+      }
+    }
+  }, [user]);
 
   const [isEditing, setIsEditing] = useState(false);
+
   const handleEdit = () => {
     setIsEditing(true);
   };
 
   const handleSave = () => {
-    // Lógica para salvar os dados editados
+    putUser()
     setIsEditing(false);
+  };
+
+  const handleDelete = () => {
+    deleteUser()
+    window.history.back();
+    window.alert("Usuário deletado com sucesso!");
   };
 
   const handleCancel = () => {
     // Lógica para cancelar a edição e reverter as alterações
+    setNome(user.nome);
+    setUserName(user.username);
+    setEmail(user.email);
+    setSenha(user.password);
+
+    if (user.roles && user.roles.length > 0) {
+      const roleName = user.roles[0].roleName;
+      if (roleName === "ROLE_ADMIN") {
+        setTipoUsuario("Admin");
+      } else if (roleName === "ROLE_FINANCEIRO") {
+        setTipoUsuario("Financeiro");
+      } else if (roleName === "ROLE_DIRETOR") {
+        setTipoUsuario("Diretor");
+      } else if (roleName === "ROLE_GPP") {
+        setTipoUsuario("Gpp");
+      } else if (roleName === "ROLE_GP") {
+        setTipoUsuario("Gp");
+      }
+    }
     setIsEditing(false);
   };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(event);
   };
 
   return (
@@ -56,11 +219,11 @@ export const DetalhesUsuario = () => {
 
           <Input
             disabled={!isEditing}
-            label="Matrícula"
-            id="matricula"
-            value={matricula}
+            label="User Name"
+            id="username"
+            value={userName}
             required
-            onChange={({ target }) => setMatricula(target.value)}
+            onChange={({ target }) => setUserName(target.value)}
           />
 
           <Input
@@ -82,33 +245,26 @@ export const DetalhesUsuario = () => {
             onChange={({ target }) => setSenha(target.value)}
           />
 
-          <div>
-            <label htmlFor="tipousuario">Tipo de Usuário</label>
-            <select
-              required
-              // className={style.Input}
-              id="tipousuario"
-              value={tipoUsuario}
-              disabled={isEditing ? false : true}
-              onChange={({ target }) => setTipoUsuario(target.value)}
-            >
-              <option disabled value="">
-                Selecione
-              </option>
-              <option value="diretor">Diretor</option>
-              <option value="financeiro">Financeiro</option>
-              <option value="gpp">Gerente de portifólio de projetos</option>
-              <option value="gp">Gerente de projetos</option>
-            </select>
-          </div>
+          <Input
+            disabled
+            label="Tipo"
+            id="tipo"
+            value={tipoUsuario}
+            onChange={({ target }) => setTipoUsuario(target.value)}
+          />
         </ContainerFormulario>
         <div className={style.GrupoBotes}>
           {isEditing ? (
             <>
-              <button className={style.Cancelar} onClick={handleCancel}>
+              <button className={style.Deletar} onClick={handleDelete}>
+                Deteletar
+              </button>
+
+              <button onClick={handleCancel}>
                 Cancelar
               </button>
-              <button className={style.Salvar} onClick={handleSave}>
+
+              <button onClick={handleSave}>
                 Salvar
               </button>
             </>

@@ -4,6 +4,7 @@ import { LoginPage } from "../pages/login/Login";
 // sidebar
 import { SidebarFinanceiro } from "../components/SidebarFinanceiro/SidebarFinanceiro";
 import { SidebarGp } from "../components/SidebarGp/SidebarGp";
+import { SidebarGpp } from "../components/SidebarGpp/SidebarGpp";
 
 // importando as paginas do financeiro
 import { Clientes } from "../pages/financeiro/clientes/Clientes";
@@ -35,14 +36,30 @@ import { DetalhesContratoGp } from "../pages/gp/contrato/DetalhesContrato/Detalh
 import { CadastrarOs } from "../pages/gp/os/CadastrarOs/CadastrarOs";
 import { VerOs } from "../pages/gp/os/VerOs/VerOs";
 import { DetalhesOs } from "../pages/gp/os/DetalhesOs/DetalhesOs";
-
-// teste
+import { PrazosVencimento } from "../pages/financeiro/contrato/PrazosVencimento/PrazosVencimento";
+import { ExecutarOs } from "../pages/gp/os/ExecutarOs/ExecutarOs";
+import { OsEmExecucao } from "../pages/gp/os/OsEmExecucao/OsEmExecucao";
+import { DashboardGpp } from "../pages/gpp/dashboard/DashboardGpp";
+import { ContratoGpp } from "../pages/gpp/contrato/ContratoGpp";
+import { Projetos } from "../pages/gpp/projetos/Projetos";
+import { DetalhesContratoGpp } from "../pages/gpp/contrato/DetalhesContratoGpp/DetalhesContratoGpp";
+import { NovoProjeto } from "../pages/gpp/projetos/NovoProjeto/NovoProjeto";
+import { VerProjetos } from "../pages/gpp/projetos/VerProjetos/VerProjetos";
+import { DetalhesProjeto } from "../pages/gpp/projetos/DetalhesProjetos/DetalhesProjetos";
+import { SidebarDiretor } from "../components/SidebarDiretor/SidebarDiretor";
+import { DashboardDiretor } from "../pages/diretor/dashboard/DashboardDiretor";
+import { ClientesDiretor } from "../pages/diretor/clientes/ClientesDiretor";
+import { FornecedoresDiretor } from "../pages/diretor/fornecedores/FornecedoresDiretor";
+import { ContratosDiretor } from "../pages/diretor/contratos/ContratosDiretor";
+import { OsDiretor } from "../pages/diretor/os/OsDiretor";
+import { ProjetosDiretor } from "../pages/diretor/projetos/ProjetosDiretor";
 
 export function RoutesApp() {
   return (
     <BrowserRouter>
       <Routes>
-        // rotas do admin
+
+        {/* rotas do admin */}
         <Route path="/admin" element={<Header />}>
           <Route path="/admin" element={<Admin />} />
           <Route
@@ -53,7 +70,7 @@ export function RoutesApp() {
           <Route path="/admin/usuarios/:id" element={<DetalhesUsuario />} />
         </Route>
 
-        // rotas do financeiro
+        {/* rotas do financeiro */}
         <Route path="/financeiro" element={<SidebarFinanceiro />}>
           <Route
             path={"/financeiro"}
@@ -65,22 +82,57 @@ export function RoutesApp() {
           />
 
           <Route path="/financeiro/clientes" element={<Clientes />} />
-          <Route path="/financeiro/clientes/cadastrar-cliente" element={<CadastrarCliente />} />
-          <Route path="/financeiro/clientes/lista-clientes" element={<VerClientes />} />
-          <Route path="/financeiro/clientes/lista-clientes/:id" element={<DetalhesCliente/>} />
-          
+          <Route
+            path="/financeiro/clientes/cadastrar-cliente"
+            element={<CadastrarCliente />}
+          />
+          <Route
+            path="/financeiro/clientes/lista-clientes"
+            element={<VerClientes />}
+          />
+          <Route
+            path="/financeiro/clientes/lista-clientes/:id"
+            element={<DetalhesCliente />}
+          />
+
           <Route path="/financeiro/fornecedores" element={<Fornecedores />} />
-          <Route path="/financeiro/fornecedores/cadastrar-fornecedor" element={<CadastrarFornecedor />} />
-          <Route path="/financeiro/fornecedores/lista-fornecedores" element={<VerFornecedores />} />
-          <Route path="/financeiro/fornecedores/lista-fornecedores/:id" element={<DetalhesFornecedor />} />
+          <Route
+            path="/financeiro/fornecedores/cadastrar-fornecedor"
+            element={<CadastrarFornecedor />}
+          />
+          <Route
+            path="/financeiro/fornecedores/lista-fornecedores"
+            element={<VerFornecedores />}
+          />
+          <Route
+            path="/financeiro/fornecedores/lista-fornecedores/:id"
+            element={<DetalhesFornecedor />}
+          />
 
           <Route path="/financeiro/contrato" element={<ContratoFinanceiro />} />
-          <Route path="/financeiro/contrato/cadastrar-contrato" element={<CadastrarContrato />} />
-          <Route path="/financeiro/contrato/lista-contratos" element={<VerContrato />} />
-          <Route path="/financeiro/contrato/lista-contratos/:id" element={<DetalhesContrato />} />
+          <Route
+            path="/financeiro/contrato/cadastrar-contrato"
+            element={<CadastrarContrato />}
+          />
+          <Route
+            path="/financeiro/contrato/lista-contratos"
+            element={<VerContrato />}
+          />
+          <Route
+            path="/financeiro/contrato/lista-contratos/:id"
+            element={<DetalhesContrato />}
+          />
+          <Route
+            path="/financeiro/contrato/prazo-vencimento"
+            element={<PrazosVencimento />}
+          />
+          <Route
+            path="/financeiro/contrato/prazo-vencimento/:id"
+            element={<DetalhesContrato />}
+          />
         </Route>
 
-        // rotas do gp
+        {/* rotas do gp */}
         <Route path="/gp" element={<SidebarGp />}>
           <Route
             path={"/gp"}
@@ -89,15 +141,50 @@ export function RoutesApp() {
           <Route path="/gp/dashboard" element={<DashboardGp />} />
 
           <Route path="/gp/contrato" element={<ContratoGp />} />
-          <Route path="/gp/contrato/:id" element={<DetalhesContratoGp/>} />
+          <Route path="/gp/contrato/:id" element={<DetalhesContratoGp />} />
 
           <Route path="/gp/os" element={<Os />} />
           <Route path="/gp/os/cadastrar-os" element={<CadastrarOs />} />
-          <Route path="/gp/os/lista" element={<VerOs />} />
-          <Route path="/gp/os/lista/detalhes/:id" element={<DetalhesOs />} />
+          <Route path="/gp/os/painel/" element={<VerOs />} />
+          <Route path="/gp/os/painel/detalhes/:id" element={<DetalhesOs />} />
+          <Route path="/gp/os/executar-os" element={<ExecutarOs />} />
+          <Route path="/gp/os/executar-os/:id" element={<DetalhesOs />} />
+          <Route path="/gp/os/os-em-execucao" element={<OsEmExecucao />} />
+          <Route path="/gp/os/os-em-execucao/:id" element={<DetalhesOs />} />
         </Route>
 
-        //login
+        {/* rotas do gpp */}
+        <Route path="/gpp" element={<SidebarGpp />}>
+          <Route
+            path={"/gpp"}
+            element={<Navigate to={"/gpp/dashboard"} replace />}
+          />
+
+          <Route path="/gpp/dashboard" element={<DashboardGpp />} />
+          <Route path="/gpp/contrato" element={<ContratoGpp />} />
+          <Route path="/gpp/contrato/:id" element={<DetalhesContratoGpp />} />
+
+          <Route path="/gpp/projetos" element={<Projetos />} />
+          <Route path="/gpp/projetos/novo-projeto" element={<NovoProjeto />} />
+          <Route path="/gpp/projetos/ver-projetos" element={<VerProjetos />} />
+          <Route path="/gpp/projetos/ver-projetos/:id" element={<DetalhesProjeto />} />
+        </Route>
+
+        {/* rotas do diretor */}
+        <Route path="/diretor" element={<SidebarDiretor />}>
+        <Route
+            path={"/diretor"}
+            element={<Navigate to={"/diretor/dashboard"} replace />}
+          />
+          <Route path="/diretor/dashboard" element={<DashboardDiretor />} />
+          <Route path="/diretor/clientes" element={<ClientesDiretor />} />
+          <Route path="/diretor/fornecedores" element={<FornecedoresDiretor />} />
+          <Route path="/diretor/contrato" element={<ContratosDiretor />} />
+          <Route path="/diretor/os" element={<OsDiretor />} />
+          <Route path="/diretor/projetos" element={<ProjetosDiretor />} />
+
+        </Route>
+        {/* login */}
         <Route path="/" element={<LoginPage />} />
       </Routes>
     </BrowserRouter>

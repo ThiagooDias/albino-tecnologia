@@ -5,18 +5,39 @@ import { Input } from "../../../../components/Input/Input";
 import { Botao } from "../../../../components/Botao/Botao";
 
 export const CadastrarFornecedor = () => {
+  // cliente
   const [razaoSocial, setRazaoSocial] = useState("");
   const [cnpj, setCnpj] = useState("");
   const [inscricaoEstadual, setinscricaoEstadual] = useState("");
-  const [responsavel, setResponsavel] = useState("");
   const [telefone, setTelefone] = useState("");
   const [email, setEmail] = useState("");
+
+  // endereço
   const [CEP, setCEP] = useState("");
   const [cidade, setCidade] = useState("");
   const [estado, setEstado] = useState("");
   const [logadouro, setLogadouro] = useState("");
   const [numero, setNumero] = useState("");
   const [bairro, setBairro] = useState("");
+  const [complemento, setComplemento] = useState("");
+
+  // responsavel
+  const [responsavel, setResponsavel] = useState("");
+  const [RG, setRG] = useState("");
+  const [CPF, setCPF] = useState("");
+  const [emailResponsavel, setEmailResponsavel] = useState("");
+  const [telefoneResponsavel, setTelefoneResponsavel] = useState("");
+  const [departamento, setDepartamento] = useState("");
+  const [cargo, setCargo] = useState("");
+
+  // endereço
+  const [CEPResponsavel, setCEPResponsavel] = useState("");
+  const [cidadeResponsavel, setCidadeResponsavel] = useState("");
+  const [estadoResponsavel, setEstadoResponsavel] = useState("");
+  const [logadouroResponsavel, setLogadouroResponsavel] = useState("");
+  const [numeroResponsavel, setNumeroResponsavel] = useState("");
+  const [bairroResponsavel, setBairroResponsavel] = useState("");
+  const [complementoResponsavel, setComplementoResponsavel] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -25,11 +46,11 @@ export const CadastrarFornecedor = () => {
 
   return (
     <form className={style.form} onSubmit={handleSubmit}>
-      <ContainerFormulario titulo="Fornecedor">
+      <ContainerFormulario titulo="Cliente">
         <Input
           label="Razão Social"
           id="razao-social"
-          column="1 / 3"
+          column="1 / -1"
           value={razaoSocial}
           required
           onChange={({ target }) => setRazaoSocial(target.value)}
@@ -49,15 +70,6 @@ export const CadastrarFornecedor = () => {
           value={inscricaoEstadual}
           required
           onChange={({ target }) => setinscricaoEstadual(target.value)}
-        />
-
-        <Input
-          label="Responsável"
-          id="responsavel"
-          column="1 / 3"
-          value={responsavel}
-          required
-          onChange={({ target }) => setResponsavel(target.value)}
         />
 
         <Input
@@ -126,6 +138,133 @@ export const CadastrarFornecedor = () => {
           value={bairro}
           required
           onChange={({ target }) => setBairro(target.value)}
+        />
+        <Input
+          label="Complemento"
+          id="complemento"
+          value={complemento}
+          column={"1/-1"}
+          required
+          onChange={({ target }) => setComplemento(target.value)}
+        />
+      </ContainerFormulario>
+
+      <ContainerFormulario titulo={"Responsável"}>
+        <Input
+          label="Nome"
+          id="nome"
+          value={responsavel}
+          column={"1/3"}
+          required
+          onChange={({ target }) => setResponsavel(target.value)}
+        />
+
+        <Input
+          label="RG"
+          id="rg"
+          value={RG}
+          required
+          onChange={({ target }) => setRG(target.value)}
+        />
+
+        <Input
+          label="CPF"
+          id="cpf"
+          value={CPF}
+          required
+          onChange={({ target }) => setCPF(target.value)}
+        />
+
+        <Input
+          label="Telefone"
+          id="telefoneResponsavel"
+          value={telefoneResponsavel}
+          required
+          onChange={({ target }) => setTelefoneResponsavel(target.value)}
+        />
+
+        <Input
+          label="Email"
+          id="emailresponsavel"
+          value={emailResponsavel}
+          required
+          onChange={({ target }) => setEmailResponsavel(target.value)}
+        />
+
+        <Input
+          label="Departamento"
+          id="departametno"
+          value={departamento}
+          required
+          onChange={({ target }) => setDepartamento(target.value)}
+        />
+
+        <Input
+          label="Cargo"
+          id="cargo"
+          value={cargo}
+          required
+          onChange={({ target }) => setCargo(target.value)}
+        />
+      </ContainerFormulario>
+
+      <ContainerFormulario titulo={"Endereço do responsável"}>
+      <Input
+          label="CEP"
+          id="cep"
+          value={CEPResponsavel}
+          required
+          onChange={({ target }) => setCEPResponsavel(target.value)}
+        />
+
+        <Input
+          label="Cidade"
+          id="cidade"
+          value={cidadeResponsavel}
+          required
+          onChange={({ target }) => setCidadeResponsavel(target.value)}
+          column="2 / 4"
+        />
+
+        <Input
+          label="UF"
+          id="uf"
+          value={estadoResponsavel}
+          required
+          onChange={({ target }) => setEstadoResponsavel(target.value)}
+        />
+
+        <Input
+          label="Logadouro"
+          id="logadouro"
+          value={logadouroResponsavel}
+          required
+          onChange={({ target }) => setLogadouroResponsavel(target.value)}
+          column="1 / 3"
+        />
+
+        <Input
+          label="Número"
+          id="numeroResponsavel"
+          value={numeroResponsavel}
+          required
+          onChange={({ target }) => setNumeroResponsavel(target.value)}
+        />
+
+        <Input
+          label="Bairro"
+          id="bairroResponsavel"
+          value={bairroResponsavel}
+          required
+          onChange={({ target }) => setBairroResponsavel(target.value)}
+        />
+        <Input
+          label="Complemento"
+          id="complementoResponsavel"
+          value={complementoResponsavel}
+          column={"1/-1"}
+          required
+          onChange={({ target }) => setComplementoResponsavel(target.value)}
         />
       </ContainerFormulario>
       <Botao name={"ENVIAR"} />

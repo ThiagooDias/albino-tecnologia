@@ -1,31 +1,6 @@
-.Salvar {
-  padding: 10px 20px;
-  color: white;
-  font-size: 18px;
-  background-color: #2db44b;
-  border: none;
-  border-radius: 4px;
-  display: flex;
-}
 
-.Editar {
-  padding: 10px 20px;
-  color: white;
-  font-size: 18px;
-  background-color: #2859d1;
-  border: none;
-  border-radius: 4px;
-  display: flex;
-}
-
-.Cancelar {
-  padding: 10px 20px;
-  color: white;
-  font-size: 18px;
+.Deletar {
   background-color: #ca3e35;
-  border: none;
-  border-radius: 4px;
-  display: flex;
 }
 
 .GrupoBotes {

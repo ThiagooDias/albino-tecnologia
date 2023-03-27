@@ -2,7 +2,7 @@ import React from "react";
 import style from "./CardOS.module.css";
 import { NavLink } from "react-router-dom";
 
-export const CardOS = ({ os, onClick, path}) => {
+export const CardOS = ({ os, onClick }) => {
   let bg = "";
   if (os.status === "Aberto") {
     bg = "#31cfcf";
@@ -13,7 +13,7 @@ export const CardOS = ({ os, onClick, path}) => {
   }
 
   return (
-    <NavLink to={path} >
+    <NavLink to={`detalhes/${os.id}`}>
       <div style={{ background: bg }} className={style.Card} onClick={onClick}>
         <h3>{os.name}</h3>
         <p>{os.status}</p>

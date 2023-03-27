@@ -12,7 +12,6 @@ export const Lista = ({lista, titulo}) => {
         <ul className={style.Lista}>
           {lista.map((user) => (
             <li key={user.id}> 
-            {/* user.id */}
               <Link className={style.Link} to={`${user.id}`}>
                 {user.name}
               </Link>

@@ -2,7 +2,6 @@
 .input {
     font-size: 16px;
     padding: 10px;
-    margin-bottom: 20px;
     margin-top: 5px;
     border-radius: 5px;
     border: 2px solid #ccc;
@@ -19,7 +18,16 @@
     outline-color: #3364DD;
 }
 
+.inputError{
+    border: 2px solid red;
+}
+
+.inputError:focus{
+    outline-color: red;
+}
+
 .inputItem{
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
 }

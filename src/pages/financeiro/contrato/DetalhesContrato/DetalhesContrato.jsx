@@ -14,12 +14,11 @@ export const DetalhesContrato = () => {
   const [cnpj, setCnpj] = useState("");
   const [numeroDoCadastro, setNumeroDoCadastro] = useState("");
   const [responsavel, setResponsavel] = useState("");
-  const [telefone, setTelefone] = useState("");
-  const [email, setEmail] = useState("");
-  const [cidade, setCidade] = useState("");
-  const [estado, setEstado] = useState("");
-  const [logadouro, setLogadouro] = useState("");
+  const [dataInicial, setDataInicial] = useState("");
+  const [dataFinal, setDataFinal] = useState("");
+  const [descricao, setDescricao] = useState("");
   const [tipoContrato, setTipoContrato] = useState("");
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -43,31 +42,22 @@ export const DetalhesContrato = () => {
   return (
     <form className={style.form} onSubmit={handleSubmit}>
       <ContainerFormulario titulo="Cliente">
-        <div style={{ gridColumn: "1 /3" }}>
-          <label htmlFor="razao-social">Razão Social</label>
-          <select
-            id="razao-social"
-            value={razaoSocial}
-            disabled={!isEditing}
-            onChange={({ target }) => setRazaoSocial(target.value)}
-          >
-            <option disabled value="">
-              Selecione uma opção
-            </option>
-            {ListRazaoSocial.map((empresa) => (
-              <option key={empresa.id} value={empresa.id}>
-                {empresa.name}
-              </option>
-            ))}
-          </select>
-        </div>
+      <Input
+          label="Razão social"
+          id="razaoSocial"
+          value={razaoSocial}
+          required
+          column={'1/3'}
+          disabled
+          onChange={({ target }) => setRazaoSocial(target.value)}
+        />
 
         <Input
           label="CNPJ"
           id="cnpj"
           value={cnpj}
           required
-          disabled={!isEditing}
+          disabled
           onChange={({ target }) => setCnpj(target.value)}
         />
 
@@ -76,7 +66,7 @@ export const DetalhesContrato = () => {
           id="numerodocadastro"
           value={numeroDoCadastro}
           required
-          disabled={!isEditing}
+          disabled
           onChange={({ target }) => setNumeroDoCadastro(target.value)}
         />
 
@@ -86,28 +76,28 @@ export const DetalhesContrato = () => {
           column="1 / 3"
           value={responsavel}
           required
-          disabled={!isEditing}
+          disabled
           onChange={({ target }) => setResponsavel(target.value)}
         />
 
         <Input
           label="Data Inicial"
-          id="telefone"
-          value={telefone}
+          id="dataInicial"
+          value={dataInicial}
           required
-          disabled={!isEditing}
+          disabled
           type={"date"}
-          onChange={({ target }) => setTelefone(target.value)}
+          onChange={({ target }) => setDataInicial(target.value)}
         />
 
         <Input
           label="Data Final"
-          id="email"
-          value={email}
+          id="dataFinal"
+          value={dataFinal}
           required
           disabled={!isEditing}
           type={"date"}
-          onChange={({ target }) => setEmail(target.value)}
+          onChange={({ target }) => setDataFinal(target.value)}
         />
       </ContainerFormulario>
 
@@ -117,7 +107,7 @@ export const DetalhesContrato = () => {
           <label>
             <input
               className={style.input}
-              disabled={!isEditing}
+              disabled
               type="radio"
               value="service"
               checked={tipoContrato === "service"}
@@ -128,7 +118,7 @@ export const DetalhesContrato = () => {
           <label>
             <input
               className={style.input}
-              disabled={!isEditing}
+              disabled
               type="radio"
               value="product"
               checked={tipoContrato === "product"}
@@ -138,56 +128,33 @@ export const DetalhesContrato = () => {
           </label>
         </div>
 
-        <Input
-          label="Valor"
-          id="cidade"
-          value={cidade}
-          required
-          disabled={!isEditing}
-
-          onChange={({ target }) => setCidade(target.value)}
-        />
-
-        <Input
-          label="Condições de Pagamento"
-          id="uf"
-          value={estado}
-          required
-          disabled={!isEditing}
-
-          onChange={({ target }) => setEstado(target.value)}
-          column="3 / -1"
-        />
-
-        <Input
-          style={{ height: "100px" }}
-          label="Descrição"
-          id="logadouro"
-          value={logadouro}
-          required
-          disabled={!isEditing}
-
-          column="1 / -1"
-          type={"text-area"}
-          onChange={({ target }) => setLogadouro(target.value)}
-        />
+        <div style={{ gridColumn: "1/-1" }}>
+          <label htmlFor="descricao">Descrição</label>
+          <textarea
+            rows={10}
+            id="descricao"
+            disabled={!isEditing}
+            value={descricao}
+            onChange={({ target }) => setDescricao(target.value)}
+          />
+        </div>
       </ContainerFormulario>
       <div className={style.GrupoBotes}>
-          {isEditing ? (
-            <>
-              <button className={style.Cancelar} onClick={handleCancel}>
-                Cancelar
-              </button>
-              <button className={style.Salvar} onClick={handleSave}>
-                Salvar
-              </button>
-            </>
-          ) : (
-            <button className={style.Editar} onClick={handleEdit}>
-              Editar
+        {isEditing ? (
+          <>
+            <button className={style.Cancelar} onClick={handleCancel}>
+              Cancelar
             </button>
-          )}
-        </div>
+            <button className={style.Salvar} onClick={handleSave}>
+              Salvar
+            </button>
+          </>
+        ) : (
+          <button className={style.Editar} onClick={handleEdit}>
+            Editar
+          </button>
+        )}
+      </div>
     </form>
   );
 };

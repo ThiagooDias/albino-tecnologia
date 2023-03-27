@@ -1,0 +1,23 @@
+.Painel {
+    max-width: 1000px;
+    margin: 40px auto;
+
+}
+
+.ContainerCard {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1000px;
+}
+.Titulo {
+    color: #292929;
+    margin-top: 16px;
+    margin-left: 8px;
+}
+
+.Titulo:first-child {
+    margin-top: 0;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
