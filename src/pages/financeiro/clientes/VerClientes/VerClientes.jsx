@@ -24,7 +24,7 @@ export const VerClientes = () => {
       let data = JSON.stringify({
         page: 1,
         size: 1,
-        sort: ["string"],
+        sort: ["nome"],
       });
 
       const config = {
@@ -50,13 +50,14 @@ export const VerClientes = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getPosts();
-      console.log(data)
-      // const clientes = data.filter(item => item.tipoDeCliente === 0) // exibi somente clientes 
-      // setUserList(clientes);
+      const clientes = data.filter(item => item.tipoDeEmpresa === 'CLIENTE') 
+      // console.log('clientes ',clientes)
+      // console.log('data ',data)
+      setUserList(clientes);
     };
     fetchData();
   }, []);
       return (
-        <Lista titulo={'Lista de Clientes'} lista={userList} />
+        <Lista titulo={'Lista de Clientes'} lista={userList} name={'razaoSocial'} />
   )
 }

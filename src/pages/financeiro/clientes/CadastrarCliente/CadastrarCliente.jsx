@@ -5,6 +5,7 @@ import { ContainerFormulario } from "../../../../components/Formulario/Formulari
 import { Input } from "../../../../components/Input/Input";
 import { Botao } from "../../../../components/Botao/Botao";
 import useForm from "../../../../hooks/useForm";
+import { format } from 'date-fns';
 import { useEffect } from "react";
 
 export const CadastrarCliente = () => {
@@ -14,6 +15,9 @@ export const CadastrarCliente = () => {
   const [inscricaoEstadual, setinscricaoEstadual] = useState("");
   const [telefone, setTelefone] = useState("");
   const [email, setEmail] = useState("");
+  const [dataDeNascimento, setDataDeNascimento] = useState(new Date())
+
+  const dataDeNascimentoFormatada = format(dataDeNascimento, 'dd/MM/yyyy');
 
   const validarEmail = useForm("email");
   const validarInscricaoEstadual = useForm("inscricaoEstadual");
@@ -44,7 +48,6 @@ export const CadastrarCliente = () => {
   const [numeroResponsavel, setNumeroResponsavel] = useState("");
   const [bairroResponsavel, setBairroResponsavel] = useState("");
   const [complementoResponsavel, setComplementoResponsavel] = useState("");
-  const [dataDeNascimento, setDataDeNascimento] = useState("")
 
   // POST
   let usuario = localStorage.getItem("username");
@@ -60,101 +63,7 @@ export const CadastrarCliente = () => {
   }
   const credencial = gerarCredencialBase64(usuario, password);
 
-  const getIdEndereço = async () => {
-    try {
-      let data = JSON.stringify({
-        page: 0,
-        size: 1,
-        sort: ["string"],
-      });
-
-      const config = {
-        mode: "no-cors",
-        method: "get",
-        maxBodyLength: Infinity,
-        url: "http://34.16.131.174/api/v1/endereco",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: credencial,
-        },
-        data: data,
-      };
-
-      const response = await axios.request(config);
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const [idEndereco, setIdEndereco] = useState();
-  const [idEnderecoResponsavel, setIdEnderecoResponsavel] = useState();
-
-  useEffect(() => {
-    async function nextIdEndereco() {
-      const response = await getIdEndereço();
-      const data = await response.data;
-      console.log(data.content);
-      if (data.content.length === 0) {
-        return 0;
-      } else {
-        const lastItem = data.content.slice(-1)[0];
-        return lastItem.id + 1;
-      }
-    }
-    nextIdEndereco().then((id) => {
-      setIdEndereco(id);
-      setIdEnderecoResponsavel(id + 1);
-    });
-  }, []);
-
-  //GET ID RESPONSAVEL
-  const getIdResponsavel = async () => {
-    try {
-      let data = JSON.stringify({
-        page: 0,
-        size: 1,
-        sort: ["string"],
-      });
-
-      const config = {
-        mode: "no-cors",
-        method: "get",
-        maxBodyLength: Infinity,
-        url: "http://34.16.131.174/api/v1/endereco",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: credencial,
-        },
-        data: data,
-      };
-
-      const response = await axios.request(config);
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const [idResponsavel, setIdResponsavel] = useState();
-
-  useEffect(() => {
-    async function nextIdResposavel() {
-      const response = await getIdResponsavel();
-      const data = await response.data;
-      console.log(data.content);
-      if (data.content.length === 0) {
-        return 0;
-      } else {
-        const lastItem = data.content.slice(-1)[0];
-        return lastItem.id + 1;
-      }
-    }
-    nextIdResposavel().then((id) => {
-      setIdResponsavel(id);
-    });
-  }, []);
-
+  
   const postEmpresa = async () => {
     try {
       let data = JSON.stringify({
@@ -164,9 +73,8 @@ export const CadastrarCliente = () => {
         inscricaoEstadual: inscricaoEstadual,
         numeroDeTelefone: telefone,
         email: email,
-        dataDeNascimento: "26/03/2023", // VALIDAR
+        dataDeNascimento: dataDeNascimentoFormatada,
         responsavel: {
-          id: idResponsavel,
           cpf: CPF,
           nome: responsavel,
           rg: RG,
@@ -174,32 +82,28 @@ export const CadastrarCliente = () => {
           email: emailResponsavel,
           departamento: departamento,
           cargo: cargo,
-          status: "ativo", // VALIDAR
           endereco: {
-            id: idEnderecoResponsavel,
             logradouro: logadouroResponsavel,
             numero: numeroResponsavel,
             complemento: complementoResponsavel,
             bairro: bairroResponsavel,
             cidade: cidadeResponsavel,
-            status: "ativo", // VALIDAR
             cep: CEPResponsavel,
             uf: estadoResponsavel,
           },
         },
         endereco: {
-          id: idEndereco,
           logradouro: logadouro,
           numero: numero,
           complemento: complemento,
           bairro: bairro,
           cidade: cidade,
-          status: "ativo", // VALIDAR
           cep: CEP,
           uf: estado,
         },
       });
 
+      console.log(data)
       const config = {
         mode: "no-cors",
         method: "post",
@@ -214,6 +118,9 @@ export const CadastrarCliente = () => {
 
       const response = await axios.request(config);
       console.log(response);
+      window.history.back();
+      window.alert("Cliente criado com sucesso!");
+      return response
     } catch (error) {
       console.log(error);
       const campoDeMensagem = error.response.data.campoDeMensagem;
@@ -224,14 +131,13 @@ export const CadastrarCliente = () => {
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      await postEmpresa();
-      postEmpresa.then((resultado) => {
-        console.log(resultado);
-      });
+      const resultado = await postEmpresa();
+      console.log(resultado);
     } catch (error) {
       console.log(error);
     }
   }
+  
 
   return (
     <form className={style.form} onSubmit={handleSubmit}>
@@ -260,7 +166,7 @@ export const CadastrarCliente = () => {
           required
           onChange={({ target }) => setinscricaoEstadual(target.value)}
           placeholder={"00000"}
-          {...validarInscricaoEstadual}
+          // {...validarInscricaoEstadual}
         />
 
         <Input
@@ -277,19 +183,21 @@ export const CadastrarCliente = () => {
           value={email}
           required
           onChange={({ target }) => setEmail(target.value)}
-          placeholder={"example@exapmle.com"}
-          {...validarEmail}
+          placeholder={"example@example.com"}
+          // {...validarEmail}
         />
 
         <Input
           label="Data de nascimento"
           id="dataDeNascimento"
-          value={dataDeNascimento}
+          value={dataDeNascimento.toISOString().substr(0, 10)}
           type={'date'}
           required
-          onChange={({ target }) => setDataDeNascimento(target.value)}
-        />
-        {dataDeNascimento}
+          onChange={(event) => {
+            const { value } = event.target;
+            setDataDeNascimento(new Date(value));
+          }}/>
+        
       </ContainerFormulario>
 
       <ContainerFormulario titulo="Endereço">
@@ -351,6 +259,7 @@ export const CadastrarCliente = () => {
           onChange={({ target }) => setComplemento(target.value)}
         />
       </ContainerFormulario>
+      
 
       <ContainerFormulario titulo={"Responsável"}>
         <Input

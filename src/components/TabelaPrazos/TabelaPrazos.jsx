@@ -17,9 +17,21 @@ export function TabelaPrazos({ titulo, ...props }) {
           {dados.map((contrato) => (
             <li key={contrato.id}>
               <Link className={style.Link} to={`${contrato.id}`}>
-                <span className={style.span}>{contrato.numeroContrato} </span>
-                <span className={style.span}>{contrato.nomeEmpresa}</span>
-                <span className={style.span}>{contrato.dataVencimento} </span>
+                <span className={style.span}>{contrato.codigoDoContrato} </span>
+                <span className={style.span}>
+                  {contrato.empresa.razaoSocial}
+                </span>
+                <span className={style.span}>
+                  {new Date(
+                    contrato.dataTermino[0],
+                    contrato.dataTermino[1] - 1,
+                    contrato.dataTermino[2]
+                  ).toLocaleDateString("pt-BR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                </span>
               </Link>
             </li>
           ))}

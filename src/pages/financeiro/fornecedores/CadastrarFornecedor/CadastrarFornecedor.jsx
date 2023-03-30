@@ -3,14 +3,23 @@ import style from "./CadastrarFornecedor.module.css";
 import { ContainerFormulario } from "../../../../components/Formulario/Formulario";
 import { Input } from "../../../../components/Input/Input";
 import { Botao } from "../../../../components/Botao/Botao";
+import useForm from "../../../../hooks/useForm";
+import { format } from 'date-fns';
+import axios from "axios";
 
 export const CadastrarFornecedor = () => {
-  // cliente
   const [razaoSocial, setRazaoSocial] = useState("");
   const [cnpj, setCnpj] = useState("");
   const [inscricaoEstadual, setinscricaoEstadual] = useState("");
   const [telefone, setTelefone] = useState("");
   const [email, setEmail] = useState("");
+  const [dataDeNascimento, setDataDeNascimento] = useState(new Date())
+
+
+  const dataDeNascimentoFormatada = format(dataDeNascimento, 'dd/MM/yyyy');
+
+  const validarEmail = useForm("email");
+  const validarInscricaoEstadual = useForm("inscricaoEstadual");
 
   // endereço
   const [CEP, setCEP] = useState("");
@@ -39,10 +48,92 @@ export const CadastrarFornecedor = () => {
   const [bairroResponsavel, setBairroResponsavel] = useState("");
   const [complementoResponsavel, setComplementoResponsavel] = useState("");
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(event);
+  // POST
+  let usuario = localStorage.getItem("username");
+  let password = localStorage.getItem("password");
+
+  usuario = "financeiro";
+  password = "senha123";
+
+  function gerarCredencialBase64(username, password) {
+    var token = username + ":" + password;
+    var hash = btoa(token); // codifica a string em Base64
+    return "Basic " + hash; // adiciona o prefixo "Basic" e retorna a credencial
+  }
+  const credencial = gerarCredencialBase64(usuario, password);
+  
+  const postEmpresa = async () => {
+    try {
+      let data = JSON.stringify({
+        cnpj: cnpj,
+        razaoSocial: razaoSocial,
+        tipoDeEmpresa: 1, // 0 - cliente, 1 - fornecedor
+        inscricaoEstadual: inscricaoEstadual,
+        numeroDeTelefone: telefone,
+        email: email,
+        dataDeNascimento: dataDeNascimentoFormatada,
+        responsavel: {
+          cpf: CPF,
+          nome: responsavel,
+          rg: RG,
+          numTelefone: telefoneResponsavel,
+          email: emailResponsavel,
+          departamento: departamento,
+          cargo: cargo,
+          endereco: {
+            logradouro: logadouroResponsavel,
+            numero: numeroResponsavel,
+            complemento: complementoResponsavel,
+            bairro: bairroResponsavel,
+            cidade: cidadeResponsavel,
+            cep: CEPResponsavel,
+            uf: estadoResponsavel,
+          },
+        },
+        endereco: {
+          logradouro: logadouro,
+          numero: numero,
+          complemento: complemento,
+          bairro: bairro,
+          cidade: cidade,
+          cep: CEP,
+          uf: estado,
+        },
+      });
+
+      console.log(data)
+      const config = {
+        mode: "no-cors",
+        method: "post",
+        maxBodyLength: Infinity,
+        url: "http://34.16.131.174/api/v1/empresa",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: credencial,
+        },
+        data: data,
+      };
+
+      const response = await axios.request(config);
+      console.log(response);
+      return response
+    } catch (error) {
+      console.log(error);
+      const campoDeMensagem = error.response.data.campoDeMensagem;
+      window.alert("ERRO: " + campoDeMensagem);
+    }
   };
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    try {
+      const resultado = await postEmpresa();
+      console.log(resultado);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
 
   return (
     <form className={style.form} onSubmit={handleSubmit}>
@@ -50,7 +141,7 @@ export const CadastrarFornecedor = () => {
         <Input
           label="Razão Social"
           id="razao-social"
-          column="1 / -1"
+          column="1 / 4"
           value={razaoSocial}
           required
           onChange={({ target }) => setRazaoSocial(target.value)}
@@ -70,6 +161,8 @@ export const CadastrarFornecedor = () => {
           value={inscricaoEstadual}
           required
           onChange={({ target }) => setinscricaoEstadual(target.value)}
+          placeholder={"00000"}
+          // {...validarInscricaoEstadual}
         />
 
         <Input
@@ -86,7 +179,23 @@ export const CadastrarFornecedor = () => {
           value={email}
           required
           onChange={({ target }) => setEmail(target.value)}
+          placeholder={"example@example.com"}
+          // {...validarEmail}
         />
+
+        <Input
+          label="Data de nascimento"
+          id="dataDeNascimento"
+          value={dataDeNascimento.toISOString().substr(0, 10)}
+          type={'date'}
+          required
+          onChange={(event) => {
+            const { value } = event.target;
+            setDataDeNascimento(new Date(value));
+          }}
+          />
+          {dataDeNascimentoFormatada}
+        
       </ContainerFormulario>
 
       <ContainerFormulario titulo="Endereço">
@@ -148,6 +257,7 @@ export const CadastrarFornecedor = () => {
           onChange={({ target }) => setComplemento(target.value)}
         />
       </ContainerFormulario>
+      
 
       <ContainerFormulario titulo={"Responsável"}>
         <Input
@@ -209,7 +319,7 @@ export const CadastrarFornecedor = () => {
       </ContainerFormulario>
 
       <ContainerFormulario titulo={"Endereço do responsável"}>
-      <Input
+        <Input
           label="CEP"
           id="cep"
           value={CEPResponsavel}

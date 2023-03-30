@@ -34,7 +34,6 @@ select:focus {
 
 select[disabled] {
   appearance: none;
-
 }
 
 textarea {
@@ -53,6 +52,11 @@ textarea:focus {
   outline-color: #3364DD;
 }
 
+textarea:disabled {
+  color: #000;
+  background-color: #fff;
+}
+
 button {
   padding: 10px 20px;
   color: white;
@@ -62,3 +66,4 @@ button {
   border-radius: 4px;
   display: flex;
 }
+

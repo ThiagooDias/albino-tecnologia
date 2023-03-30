@@ -20,41 +20,41 @@ export const VerUsuario = () => {
   }
   const credencial = gerarCredencialBase64(usuario, password);
 
-  const getPosts = async () => {
+  const getUsuarios = async () => {
     try {
-      let data = JSON.stringify({
-        page: 0,
-        size: 0,
-        sort: ["nome,asc"],
-      });
-
       const config = {
         mode: "no-cors",
         method: "get",
-        maxBodyLength: Infinity,
         url: "http://34.16.131.174/api/v1/usuario",
         headers: {
           "Content-Type": "application/json",
           Authorization: credencial,
         },
-        data: data,
+        params: {
+          page: 1,
+          size: 1,
+          sort: "nome,asc",
+        },
       };
-
+  
       const response = await axios.request(config);
+      console.log("RESPONSE:",response)
       return response.data.content;
     } catch (error) {
-      console.log(error);
+      console.log("ERROR ", error);
+      console.log("MENSAGEM DE ERRO: ", error.response.config.params);
     }
   };
-
+  
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getPosts();
-      const usuariosAtivos = data.filter(item => item.status === 'ATIVO') // exibi somente usuarios ativos 
+      const data = await getUsuarios();
+      const usuariosAtivos = data //.filter(item => item.status === 'ATIVO') // exibi somente usuarios ativos 
       setUserList(usuariosAtivos);
     };
     fetchData();
   }, []);
+  
 
 
   return (

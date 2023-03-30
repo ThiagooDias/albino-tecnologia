@@ -17,9 +17,11 @@ export const CadastrarUsuarios = () => {
   
 
   // POST
-  const usuario = localStorage.getItem("username");
-  const password = localStorage.getItem("password");
+  let usuario = localStorage.getItem("username");
+  let password = localStorage.getItem("password");
 
+  usuario = 'admin'
+  password = 'senha123'
   function gerarCredencialBase64(username, password) {
     var token = username + ":" + password;
     var hash = btoa(token); // codifica a string em Base64
@@ -36,7 +38,7 @@ export const CadastrarUsuarios = () => {
         email: email,
         roleIds: [tipoUsuario],
       });
-
+      
       const config = {
         mode: "no-cors",
         method: "post",
@@ -48,9 +50,11 @@ export const CadastrarUsuarios = () => {
         },
         data: data,
       };
-
+      
       const response = await axios.request(config);
       console.log(response);
+      window.history.back();
+      window.alert("Usuário cadastrado com sucesso!");
     } catch (error) {
       console.log(error);
     }
@@ -61,8 +65,6 @@ export const CadastrarUsuarios = () => {
 
       try {
         await getPosts();
-        window.history.back();
-        window.alert("Usuário criado com sucesso!");
       } catch (error) {
         console.log(error);
       }

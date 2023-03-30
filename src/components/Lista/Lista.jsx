@@ -2,7 +2,8 @@ import React from "react";
 import style from './Lista.module.css'
 import { Link } from "react-router-dom";
 
-export const Lista = ({lista, titulo}) => {
+export const Lista = ({lista, titulo, name}) => {
+  console.log('lista ',lista)
   return (
     <div>
       <div className={style.Titulo}>
@@ -13,7 +14,7 @@ export const Lista = ({lista, titulo}) => {
           {lista.map((user) => (
             <li key={user.id}> 
               <Link className={style.Link} to={`${user.id}`}>
-                {user.name}
+                {user[name]}
               </Link>
             </li>
           ))}

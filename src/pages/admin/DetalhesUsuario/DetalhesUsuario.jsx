@@ -8,7 +8,6 @@ import { Botao } from "../../../components/Botao/Botao";
 
 export const DetalhesUsuario = () => {
   const [user, setUser] = useState({});
-
   const { id } = useParams();
 
   let usuario = localStorage.getItem("username");
