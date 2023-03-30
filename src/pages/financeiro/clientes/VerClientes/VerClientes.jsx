@@ -9,7 +9,7 @@ export const VerClientes = () => {
   let usuario = localStorage.getItem("username");
   let password = localStorage.getItem("password");
 
-  usuario = "financeiro";
+  usuario = "financeiro1";
   password = "senha123";
 
   function gerarCredencialBase64(username, password) {
