@@ -4,5 +4,18 @@
 
 .input {
     margin: 8px 4px 0 16px;
-
 }
+
+.Fechar {
+    background-color: #ca3e35;
+  }
+
+  .GrupoBotoes {
+    max-width: 800px;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 0 auto;
+    margin-bottom: 60px;
+  }
+  

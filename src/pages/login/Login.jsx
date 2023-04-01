@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 export const LoginPage = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [loginIncorreto, setLoginIncorreto] = useState(false)
 
   localStorage.setItem('username', userName);
   localStorage.setItem('password', password);
@@ -41,6 +42,7 @@ export const LoginPage = () => {
       setUserType(response.data.role)
     } catch (error) {
       console.log(error);
+      setLoginIncorreto(true)
     }
   };
   
@@ -98,6 +100,8 @@ export const LoginPage = () => {
           value={password}
           onChange={({ target }) => setPassword(target.value)}
         />
+        {loginIncorreto && 
+        <p className={style.ErroLogin}>Username ou senha incorreto</p>}
         <button className={style.button} type="submit">
           Entrar
         </button>

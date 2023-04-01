@@ -13,8 +13,7 @@ export const DetalhesUsuario = () => {
   let usuario = localStorage.getItem("username");
   let password = localStorage.getItem("password");
 
-  usuario = "admin";
-  password = "senha123";
+
 
   function gerarCredencialBase64(username, password) {
     var token = username + ":" + password;

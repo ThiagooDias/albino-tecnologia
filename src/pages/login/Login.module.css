@@ -32,6 +32,7 @@
 }
 
 .label {
+    margin-top: 20px;
     margin-bottom: 5px;
     display: block;
 }
@@ -40,7 +41,6 @@
     display: block;
     width: 100%;
     padding: 10px;
-    margin-bottom: 20px;
     border-radius: 5px;
     border: 2px solid #ccc;
     box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
@@ -54,6 +54,7 @@
     display: block;
     width: 100%;
     padding: 10px;
+    margin-top: 20px;
     background-color: #3364DD;
     color: #fff;
     border: none;
@@ -63,4 +64,9 @@
 }
 .button:hover {
     background-color: #6489e5;
+}
+
+.ErroLogin {
+    color: red;
+    text-align: center;
 }

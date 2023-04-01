@@ -15,7 +15,6 @@ export const CadastrarFornecedor = () => {
   const [email, setEmail] = useState("");
   const [dataDeNascimento, setDataDeNascimento] = useState(new Date())
 
-
   const dataDeNascimentoFormatada = format(dataDeNascimento, 'dd/MM/yyyy');
 
   const validarEmail = useForm("email");
@@ -52,8 +51,6 @@ export const CadastrarFornecedor = () => {
   let usuario = localStorage.getItem("username");
   let password = localStorage.getItem("password");
 
-  usuario = "financeiro1";
-  password = "senha123";
 
   function gerarCredencialBase64(username, password) {
     var token = username + ":" + password;
@@ -196,7 +193,6 @@ export const CadastrarFornecedor = () => {
             setDataDeNascimento(new Date(value));
           }}
           />
-          {dataDeNascimentoFormatada}
         
       </ContainerFormulario>
 

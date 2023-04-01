@@ -5,6 +5,7 @@ import style from "./DetalhesContratoGpp.module.css";
 import { ContainerFormulario } from "../../../../components/Formulario/Formulario";
 import { Input } from "../../../../components/Input/Input";
 import { Botao } from "../../../../components/Botao/Botao";
+import Modal from "../../../../components/Modal/Modal";
 
 export const DetalhesContratoGpp = () => {
   const { id } = useParams();
@@ -20,15 +21,15 @@ export const DetalhesContratoGpp = () => {
   const [valorUnitario, setValorUnitario] = useState("");
   const [qtdDePontosFuncao, setQtdDePontosFuncao] = useState("");
   const [valorTotal, setValorTotal] = useState("");
+
+  const [gp, setGp] = useState("");
+
   const [idEmpresa, setIdEmpresa] = useState("");
   const [idResponsavel, setIdResponsavel] = useState("");
 
   // CREDENCIAL
   let usuario = localStorage.getItem("username");
   let password = localStorage.getItem("password");
-
-  usuario = "financeiro";
-  password = "senha123";
 
   function gerarCredencialBase64(username, password) {
     var token = username + ":" + password;
@@ -71,7 +72,101 @@ export const DetalhesContratoGpp = () => {
     fetchData();
   }, []);
 
-  console.log(contrato);
+  console.log("contrato ",contrato);
+
+  const [userList, setUserList] = useState([]);
+
+  // GET - gp
+  const getUsuarios = async () => {
+    try {
+      const config = {
+        mode: "no-cors",
+        method: "get",
+        url: "http://34.16.131.174/api/v1/usuario",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic YWRtaW46c2VuaGExMjM=",
+        },
+        params: {
+          page: 0,
+          size: "*",
+          sort: "nome,asc",
+        },
+      };
+
+      const response = await axios.request(config);
+      console.log("RESPONSE:", response);
+      return response.data.content;
+    } catch (error) {
+      console.log("ERROR ", error);
+      console.log("MENSAGEM DE ERRO: ", error.response.config.params);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getUsuarios();
+      const usuariosAtivos = data.filter((usuario) => {
+        const isAtivo = usuario.status === "ativo";
+        const isRoleGP = usuario.roles[0].roleName === "ROLE_GP";
+        return isAtivo && isRoleGP;
+      });
+      setUserList(usuariosAtivos);
+    };
+    fetchData();
+  }, []);
+
+  // POST
+
+  const postContrato = async () => {
+    
+
+    try {
+      let data = JSON.stringify({
+        dataInicio: dataInicial.toLocaleDateString(),
+        dataTermino: dataFinal.toLocaleDateString(),
+        valorUnitario: contrato?.valorUnitario,
+        qtdDePontosFuncao: qtdDePontosFuncao,
+        descricao: [0],
+        tipoDeContrato: [0],
+        idDaEmpresa: contrato?.empresa?.id,
+        idDoResponsavel: contrato?.empresa?.responsavel?.id,
+        idDoUsuario: gp,
+      });
+      console.log(data);
+      const config = {
+        mode: "no-cors",
+        method: "put",
+        maxBodyLength: Infinity,
+        url: `http://34.16.131.174/api/v1/contrato/distribuir/${id}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: credencial,
+        },
+        data: data,
+      };
+
+      const response = await axios.request(config);
+      console.log(response);
+      window.history.back();
+      window.alert("Contrato distribuido com sucesso!");
+      return response;
+    } catch (error) {
+      console.log(error);
+      const campoDeMensagem = error.response.data.campoDeMensagem;
+      window.alert("ERRO: " + campoDeMensagem);
+    }
+  };
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    try {
+      const resultado = await postContrato();
+      console.log(resultado);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     setRazaoSocial(contrato?.empresa?.razaoSocial);
@@ -114,29 +209,11 @@ export const DetalhesContratoGpp = () => {
     setTipoContrato(contrato?.tipoDeContrato[0]);
   }, [contrato]);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // console.log(event);
-  };
-  const [isEditing, setIsEditing] = useState(false);
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
 
-  const handleSave = () => {
-    // Lógica para salvar os dados editados
-    setIsEditing(false);
-  };
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleCancel = () => {
-    // Lógica para cancelar a edição e reverter as alterações
-    setIsEditing(false);
-  };
-
-  const [distribuirContrato, setDistribuirContrato] = useState(false);
-  const handleDistribuir = () => {
-    setDistribuirContrato(true);
-  };
+  const handleOpenModal = () => setIsOpen(true);
+  const handleCloseModal = () => setIsOpen(false);
 
   return (
     <div>
@@ -251,30 +328,38 @@ export const DetalhesContratoGpp = () => {
           />
         </div>
       </ContainerFormulario>
-      {distribuirContrato ? (
-        <>
-          <ContainerFormulario titulo={"Distribuir"}>
-            <Input
-              label="Valor Unitário"
-              id="valorUnitario"
-              value={valorUnitario}
-              required
-              disabled
-              onChange={({ target }) => setValorUnitario(target.value)}
-            />
-          </ContainerFormulario>
-          <div className={style.GrupoBotes}>
-            <button className={style.Cancelar} onClick={handleCancel}>
-              Cancelar
-            </button>
-            <button className={style.Salvar} onClick={handleSave}>
-              Salvar
-            </button>
-          </div>
-        </>
-      ) : (
-        <Botao name={"DISTRIBUIR"} onClick={handleDistribuir} />
-      )}
+
+      <Botao name={"DISTRIBUIR"} onClick={handleOpenModal} />
+
+      <Modal isOpen={isOpen} onClose={handleCloseModal}>
+        <h2>Selecione</h2>
+        <div>
+          <label htmlFor="gp">Gerente de Projeto</label>
+          <select
+            id="gp"
+            value={gp}
+            required
+            onChange={({ target }) => setGp(target.value)}
+          >
+            <option disabled value="">
+              Selecione uma opção
+            </option>
+
+            {userList.map((gp) => (
+              <option key={gp.id} value={gp.id}>
+                {gp.username}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className={style.GrupoBotoes}>
+          <button className={style.Fechar} onClick={handleCloseModal}>
+            Cancelar
+          </button>
+          <button onClick={handleSubmit}>Salvar</button>
+        </div>
+      </Modal>
     </div>
   );
 };

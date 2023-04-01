@@ -9,9 +9,7 @@ export const VerUsuario = () => {
   // GET
   let usuario = localStorage.getItem("username");
   let password = localStorage.getItem("password");
-
-  usuario = "admin";
-  password = "senha123";
+  
 
   function gerarCredencialBase64(username, password) {
     var token = username + ":" + password;
@@ -31,8 +29,8 @@ export const VerUsuario = () => {
           Authorization: credencial,
         },
         params: {
-          page: 1,
-          size: 1,
+          page: 0,
+          size: "*",
           sort: "nome,asc",
         },
       };
@@ -49,7 +47,7 @@ export const VerUsuario = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getUsuarios();
-      const usuariosAtivos = data //.filter(item => item.status === 'ATIVO') // exibi somente usuarios ativos 
+      const usuariosAtivos = data.filter(item => item.status === 'ativo') // exibi somente usuarios ativos 
       setUserList(usuariosAtivos);
     };
     fetchData();
