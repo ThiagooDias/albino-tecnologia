@@ -1,15 +1,15 @@
-import {React, useState, useEffect} from 'react'
-import axios from 'axios';
-import { Lista } from '../../../components/Lista/Lista'
+import { React, useState, useEffect } from "react";
+import axios from "axios";
+import { Lista } from "../../../components/Lista/Lista";
 
 export const ContratoGpp = () => {
   const [userList, setUserList] = useState([]);
   // GET
-  let usuario = localStorage.getItem("username");
-  let password = localStorage.getItem("password");
+  const usuario = localStorage.getItem("username");
+  const password = localStorage.getItem("password");
 
-  usuario = "financeiro1";
-  password = "senha123";
+  // usuario = "financeiro1";
+  // password = "senha123";
 
   function gerarCredencialBase64(username, password) {
     var token = username + ":" + password;
@@ -20,26 +20,19 @@ export const ContratoGpp = () => {
 
   const getPosts = async () => {
     try {
-      let data = JSON.stringify({
-        page: 1,
-        size: 1,
-        sort: ["nome"],
-      });
-
       const config = {
         mode: "no-cors",
         method: "get",
         maxBodyLength: Infinity,
+        //url: 'http://34.16.131.174/api/v1/login',
         url: "http://34.16.131.174/api/v1/contrato",
         headers: {
-          "Content-Type": "application/json",
           Authorization: credencial,
         },
-        data: data,
       };
 
       const response = await axios.request(config);
-      console.log(response)
+      console.log(response);
       return response.data.content;
     } catch (error) {
       console.log(error);
@@ -49,15 +42,18 @@ export const ContratoGpp = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getPosts();
-      const clientes = data //.filter(item => item.tipoDeEmpresa === 'CLIENTE') 
+      const clientes = data; //.filter(item => item.tipoDeEmpresa === 'CLIENTE')
       // console.log('clientes ',clientes)
-      console.log('data ',data)
+      console.log("data ", data);
       setUserList(clientes);
     };
     fetchData();
   }, []);
-      return (
-        <Lista titulo={'Lista de Contratos'} lista={userList} name={'codigoDoContrato'} />
-  )
-}
-
+  return (
+    <Lista
+      titulo={"Lista de Contratos"}
+      lista={userList}
+      name={"codigoDoContrato"}
+    />
+  );
+};

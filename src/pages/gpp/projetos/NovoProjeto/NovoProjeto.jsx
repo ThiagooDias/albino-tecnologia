@@ -16,9 +16,6 @@ export const NovoProjeto = () => {
   let usuario = localStorage.getItem("username");
   let password = localStorage.getItem("password");
 
-  usuario = "financeiro1";
-  password = "senha123";
-
   function gerarCredencialBase64(username, password) {
     var token = username + ":" + password;
     var hash = btoa(token); // codifica a string em Base64
@@ -34,7 +31,7 @@ export const NovoProjeto = () => {
         dataDeInicio: "20/01/2022",
         dataDeTermino: "29/03/2023",
         idDaOs: 1,
-        idDoUsuario: 1,
+        idDoUsuario: 3,
       });
 
       console.log(data);
