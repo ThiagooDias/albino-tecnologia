@@ -1,13 +1,13 @@
 import { React, useState, useEffect } from "react";
 import axios from "axios";
-import { ContainerFormulario } from "../../../../components/Formulario/Formulario";
-import { Input } from "../../../../components/Input/Input";
-import { Botao } from "../../../../components/Botao/Botao";
+import { ContainerFormulario } from "../../../components/Formulario/Formulario";
+import { Input } from "../../../components/Input/Input";
+import { Botao } from "../../../components/Botao/Botao";
 import { useParams } from "react-router-dom";
-import Modal from "../../../../components/Modal/Modal";
-import style from "./DetalhesProjetos.module.css";
+import Modal from "../../../components/Modal/Modal";
 
-export const DetalhesProjeto = () => {
+
+export const DetalhesProjetoDiretor = () => {
   const { id } = useParams();
   const [numeroOS, setNumeroOS] = useState("");
   const [nome, setNome] = useState("");
@@ -22,6 +22,9 @@ export const DetalhesProjeto = () => {
   // GET
   let usuario = localStorage.getItem("username");
   let password = localStorage.getItem("password");
+
+  usuario = 'gpp'
+  password = 'senha123'
 
   function gerarCredencialBase64(username, password) {
     var token = username + ":" + password;
@@ -225,35 +228,6 @@ export const DetalhesProjeto = () => {
           />
         </div>
       </ContainerFormulario>
-      
-      {status === 'ativo' && (
-      <Botao name={"DISTRIBUIR"} onClick={handleOpenModal} />
-      )}
-
-      <Modal isOpen={isOpen} onClose={handleCloseModal}>
-        <h2>Selecione</h2>
-        <div>
-          <label htmlFor="gp">Gerente de Projeto</label>
-          <select id="gp" value={usernameGp} required onChange={handleSelectChange}>
-            <option disabled value="">
-              Selecione uma opção
-            </option>
-
-            {GpList.map((gp) => (
-              <option key={gp.id} value={gp.id}>
-                {gp.username}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className={style.GrupoBotoes}>
-          <button className={style.Fechar} onClick={handleCloseModal}>
-            Cancelar
-          </button>
-          <button onClick={DistribuirProjeto}>Salvar</button>
-        </div>
-      </Modal>
     </div>
   );
 };

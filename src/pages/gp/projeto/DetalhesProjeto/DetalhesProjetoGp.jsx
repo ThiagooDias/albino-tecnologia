@@ -5,9 +5,9 @@ import { Input } from "../../../../components/Input/Input";
 import { Botao } from "../../../../components/Botao/Botao";
 import { useParams } from "react-router-dom";
 import Modal from "../../../../components/Modal/Modal";
-import style from "./DetalhesProjetos.module.css";
+import style from "./DetalhesProjetoGp.module.css";
 
-export const DetalhesProjeto = () => {
+export const DetalhesProjetoGp = () => {
   const { id } = useParams();
   const [numeroOS, setNumeroOS] = useState("");
   const [nome, setNome] = useState("");
@@ -38,7 +38,7 @@ export const DetalhesProjeto = () => {
         maxBodyLength: Infinity,
         url: `http://34.16.131.174/api/v1/projeto/${id}`,
         headers: {
-          Authorization: credencial,
+          Authorization: "Basic Z3BwOnNlbmhhMTIz",
         },
       };
 
@@ -125,40 +125,25 @@ export const DetalhesProjeto = () => {
     fetchData();
   }, []);
 
-  // MODAL
-  const [isOpen, setIsOpen] = useState(false);
-  const handleOpenModal = () => setIsOpen(true);
-  const handleCloseModal = () => setIsOpen(false);
 
-  const handleSelectChange = (event) => {
-    const idSelecionado = parseInt(event.target.value);
-    const user = GpList.find((item) => item.id === idSelecionado);
-    setUsernameGp(user.username);
-  };
-
-  const DistribuirProjeto = async () => {
+  const FinalizarProjeto = async () => {
     try {
-      let data = JSON.stringify({
-        usernameDoUsuario: usernameGp,
-      });
 
       const config = {
         mode: "no-cors",
         method: "put",
         maxBodyLength: Infinity,
-        url: `http://34.16.131.174/api/v1/projeto/distribuir/username/${id}`,
+        url: `http://34.16.131.174/api/v1/projeto/encerrar/${id}`,
         headers: {
           Authorization: credencial,
           "Content-Type": "application/json",
         },
-
-        data: data,
       };
 
       const response = await axios.request(config);
       console.log(response);
       window.history.back();
-      window.alert("Projeto distribuido com sucesso!");
+      window.alert("Projeto finalizado com sucesso!");
     } catch (error) {
       console.log(error);
     }
@@ -226,34 +211,11 @@ export const DetalhesProjeto = () => {
         </div>
       </ContainerFormulario>
       
-      {status === 'ativo' && (
-      <Botao name={"DISTRIBUIR"} onClick={handleOpenModal} />
+      {status === 'em andamento' && (
+      <Botao name={"FINALIZAR"} onClick={FinalizarProjeto} />
       )}
 
-      <Modal isOpen={isOpen} onClose={handleCloseModal}>
-        <h2>Selecione</h2>
-        <div>
-          <label htmlFor="gp">Gerente de Projeto</label>
-          <select id="gp" value={usernameGp} required onChange={handleSelectChange}>
-            <option disabled value="">
-              Selecione uma opção
-            </option>
-
-            {GpList.map((gp) => (
-              <option key={gp.id} value={gp.id}>
-                {gp.username}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className={style.GrupoBotoes}>
-          <button className={style.Fechar} onClick={handleCloseModal}>
-            Cancelar
-          </button>
-          <button onClick={DistribuirProjeto}>Salvar</button>
-        </div>
-      </Modal>
+      
     </div>
   );
 };

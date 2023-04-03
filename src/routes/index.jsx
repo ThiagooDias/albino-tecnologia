@@ -29,16 +29,14 @@ import { VerUsuario } from "../pages/admin/VerUsuarios/VerUsuario";
 import { DetalhesUsuario } from "../pages/admin/DetalhesUsuario/DetalhesUsuario";
 
 // importando as paginas do gp
-import { DashboardGp } from "../pages/gp/dashboard";
-import { ContratoGp } from "../pages/gp/contrato/Contrato";
+import { DashboardGp } from "../pages/gp/dashboard/DashboardGp";
+import { ProjetoGp } from "../pages/gp/projeto/Projeto";
 import { Os } from "../pages/gp/os/Os";
-import { DetalhesContratoGp } from "../pages/gp/contrato/DetalhesContrato/DetalhesContratoGp";
+import { DetalhesProjetoGp } from "../pages/gp/projeto/DetalhesProjeto/DetalhesProjetoGp";
 import { CadastrarOs } from "../pages/gp/os/CadastrarOs/CadastrarOs";
 import { VerOs } from "../pages/gp/os/VerOs/VerOs";
 import { DetalhesOs } from "../pages/gp/os/DetalhesOs/DetalhesOs";
 import { PrazosVencimento } from "../pages/financeiro/contrato/PrazosVencimento/PrazosVencimento";
-import { ExecutarOs } from "../pages/gp/os/ExecutarOs/ExecutarOs";
-import { OsEmExecucao } from "../pages/gp/os/OsEmExecucao/OsEmExecucao";
 import { DashboardGpp } from "../pages/gpp/dashboard/DashboardGpp";
 import { ContratoGpp } from "../pages/gpp/contrato/ContratoGpp";
 import { Projetos } from "../pages/gpp/projetos/Projetos";
@@ -46,6 +44,8 @@ import { DetalhesContratoGpp } from "../pages/gpp/contrato/DetalhesContratoGpp/D
 import { NovoProjeto } from "../pages/gpp/projetos/NovoProjeto/NovoProjeto";
 import { VerProjetos } from "../pages/gpp/projetos/VerProjetos/VerProjetos";
 import { DetalhesProjeto } from "../pages/gpp/projetos/DetalhesProjetos/DetalhesProjetos";
+
+// diretor
 import { SidebarDiretor } from "../components/SidebarDiretor/SidebarDiretor";
 import { DashboardDiretor } from "../pages/diretor/dashboard/DashboardDiretor";
 import { ClientesDiretor } from "../pages/diretor/clientes/ClientesDiretor";
@@ -53,12 +53,16 @@ import { FornecedoresDiretor } from "../pages/diretor/fornecedores/FornecedoresD
 import { ContratosDiretor } from "../pages/diretor/contratos/ContratosDiretor";
 import { OsDiretor } from "../pages/diretor/os/OsDiretor";
 import { ProjetosDiretor } from "../pages/diretor/projetos/ProjetosDiretor";
+import { DetalhesClienteDiretor } from "../pages/diretor/clientes/DetalhesCliente/DetalhesCliente";
+import { DetalhesContratoDiretor } from "../pages/diretor/contratos/DetalhesContrato/DetalhesContrato";
+import { DetalhesFornecedorDiretor } from "../pages/diretor/fornecedores/DetalhesFornecedorDiretor";
+import { DetalhesOsDiretor } from "../pages/diretor/os/DetalhesOsDiretor";
+import { DetalhesProjetoDiretor } from "../pages/diretor/projetos/DetalhesProjetoDiretor";
 
 export function RoutesApp() {
   return (
     <BrowserRouter>
       <Routes>
-
         {/* rotas do admin */}
         <Route path="/admin" element={<Header />}>
           <Route path="/admin" element={<Admin />} />
@@ -140,17 +144,13 @@ export function RoutesApp() {
           />
           <Route path="/gp/dashboard" element={<DashboardGp />} />
 
-          <Route path="/gp/contrato" element={<ContratoGp />} />
-          <Route path="/gp/contrato/:id" element={<DetalhesContratoGp />} />
+          <Route path="/gp/projeto" element={<ProjetoGp />} />
+          <Route path="/gp/projeto/:id" element={<DetalhesProjetoGp />} />
 
           <Route path="/gp/os" element={<Os />} />
           <Route path="/gp/os/cadastrar-os" element={<CadastrarOs />} />
           <Route path="/gp/os/painel/" element={<VerOs />} />
           <Route path="/gp/os/painel/detalhes/:id" element={<DetalhesOs />} />
-          <Route path="/gp/os/executar-os" element={<ExecutarOs />} />
-          <Route path="/gp/os/executar-os/:id" element={<DetalhesOs />} />
-          <Route path="/gp/os/os-em-execucao" element={<OsEmExecucao />} />
-          <Route path="/gp/os/os-em-execucao/:id" element={<DetalhesOs />} />
         </Route>
 
         {/* rotas do gpp */}
@@ -167,22 +167,44 @@ export function RoutesApp() {
           <Route path="/gpp/projetos" element={<Projetos />} />
           <Route path="/gpp/projetos/novo-projeto" element={<NovoProjeto />} />
           <Route path="/gpp/projetos/ver-projetos" element={<VerProjetos />} />
-          <Route path="/gpp/projetos/ver-projetos/:id" element={<DetalhesProjeto />} />
+          <Route
+            path="/gpp/projetos/ver-projetos/:id"
+            element={<DetalhesProjeto />}
+          />
         </Route>
 
         {/* rotas do diretor */}
         <Route path="/diretor" element={<SidebarDiretor />}>
-        <Route
+          <Route
             path={"/diretor"}
             element={<Navigate to={"/diretor/dashboard"} replace />}
           />
           <Route path="/diretor/dashboard" element={<DashboardDiretor />} />
-          <Route path="/diretor/clientes" element={<ClientesDiretor />} />
-          <Route path="/diretor/fornecedores" element={<FornecedoresDiretor />} />
-          <Route path="/diretor/contrato" element={<ContratosDiretor />} />
-          <Route path="/diretor/os" element={<OsDiretor />} />
-          <Route path="/diretor/projetos" element={<ProjetosDiretor />} />
 
+          <Route path="/diretor/clientes" element={<ClientesDiretor />} />
+          <Route
+            path="/diretor/clientes/:id"
+            element={<DetalhesClienteDiretor />}
+          />
+
+          <Route
+            path="/diretor/fornecedores"
+            element={<FornecedoresDiretor />}
+          />
+          <Route
+            path="/diretor/fornecedores/:id"
+            element={<DetalhesFornecedorDiretor />}
+          />
+          <Route path="/diretor/contrato" element={<ContratosDiretor />} />
+          <Route
+            path="/diretor/contrato/:id"
+            element={<DetalhesContratoDiretor />}
+          />
+
+          <Route path="/diretor/os" element={<OsDiretor />} />
+          <Route path="/diretor/os/detalhes/:id" element={<DetalhesOsDiretor />} />
+          <Route path="/diretor/projetos" element={<ProjetosDiretor />} />
+          <Route path="/diretor/projetos/:id" element={<DetalhesProjetoDiretor />} />
         </Route>
         {/* login */}
         <Route path="/" element={<LoginPage />} />

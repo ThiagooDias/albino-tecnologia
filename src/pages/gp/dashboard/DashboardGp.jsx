@@ -1,10 +1,9 @@
 import React from 'react'
 import { DashboardSimples } from '../../../components/DashboardSimples/DashboardSimples'
 
-export const DashboardDiretor = () => {
+export const DashboardGp = () => {
   return (
-    <div>
-      <DashboardSimples/>
-    </div>
+    <DashboardSimples />
   )
 }
+

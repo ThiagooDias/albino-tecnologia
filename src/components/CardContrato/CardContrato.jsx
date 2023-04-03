@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 export const CardContrato = ({ contrato, onClick}) => {
   let bg = "";
   if (contrato.status === "Aberto") {
-    bg = "#31cfcf";
+    bg = "#36A2EB";
   } else if (contrato.status === "Em execução") {
     bg = "#d5c854";
   }

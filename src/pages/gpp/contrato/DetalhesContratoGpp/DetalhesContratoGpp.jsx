@@ -119,8 +119,6 @@ export const DetalhesContratoGpp = () => {
   // POST
 
   const postContrato = async () => {
-    
-
     try {
       let data = JSON.stringify({
         dataInicio: dataInicial.toLocaleDateString(),
@@ -209,9 +207,8 @@ export const DetalhesContratoGpp = () => {
     setTipoContrato(contrato?.tipoDeContrato[0]);
   }, [contrato]);
 
-
+  // MODAL
   const [isOpen, setIsOpen] = useState(false);
-
   const handleOpenModal = () => setIsOpen(true);
   const handleCloseModal = () => setIsOpen(false);
 

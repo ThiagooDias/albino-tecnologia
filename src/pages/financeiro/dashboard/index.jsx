@@ -1,8 +1,9 @@
 import React from 'react'
+import { DashboardSimples } from '../../../components/DashboardSimples/DashboardSimples'
 
 export const DashboardFinanceiro = () => {
   return (
-    <div>Dashboard</div>
+    <DashboardSimples/>
   )
 }
 

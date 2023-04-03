@@ -37,13 +37,12 @@
     display: flex;
   }
   
-  .GrupoBotes {
+  .GrupoBotoes {
     max-width: 800px;
     display: flex;
     justify-content: center;
     gap: 40px;
-    margin: 0 auto;
-    margin-bottom: 60px;
+    margin: 20px auto;
   }
   
   

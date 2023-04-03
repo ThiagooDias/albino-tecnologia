@@ -1,13 +1,12 @@
 import { React, useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { ContainerFormulario } from "../../../../components/Formulario/Formulario";
-import { Input } from "../../../../components/Input/Input";
-import { Botao } from "../../../../components/Botao/Botao";
+import { ContainerFormulario } from "../../../components/Formulario/Formulario";
+import { Input } from "../../../components/Input/Input";
+import { Botao } from "../../../components/Botao/Botao";
 
-export const DetalhesOs = () => {
+export const DetalhesOsDiretor = () => {
   const { id } = useParams();
-  const [os, setOs] = useState("");
 
   const [numeroOS, setNumeroOs] = useState("");
   const [razaoSocial, setRazaoSocial] = useState("");
@@ -61,8 +60,6 @@ export const DetalhesOs = () => {
       console.log(error);
     }
   };
-
-  
 
   // GET
   let usuario = localStorage.getItem("username");
@@ -203,10 +200,6 @@ export const DetalhesOs = () => {
           />
         </div>
       </ContainerFormulario>
-      {status === "ativo" && <Botao name={"EXECUTAR"} onClick={execetuarOs} />}
-      {status === "em execucao" && (
-        <Botao name={"FINALIZAR"} onClick={finalizarOs} />
-      )}
     </div>
   );
 };

@@ -1,7 +1,10 @@
-import React from 'react'
+import React from "react";
+import { VerFornecedores } from "../../financeiro/fornecedores/VerFornecedores/VerFornecedores";
 
 export const FornecedoresDiretor = () => {
   return (
-    <div>FornecedoresDiretor</div>
-  )
-}
+    <div>
+      <VerFornecedores />
+    </div>
+  );
+};

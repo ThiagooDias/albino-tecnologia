@@ -1,13 +1,12 @@
-import { React, useEffect, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import useForm from "../../../../hooks/useForm";
 import axios from "axios";
-import style from "./DetalhesFornecedor.module.css";
+// import style from "./DetalhesCliente.module.css";
 import { ContainerFormulario } from "../../../../components/Formulario/Formulario";
 import { Input } from "../../../../components/Input/Input";
 import { format } from "date-fns";
 
-export const DetalhesFornecedor = () => {
+export const DetalhesClienteDiretor = () => {
   const [empresa, setEmpresa] = useState({});
   const { id } = useParams();
 
@@ -20,9 +19,6 @@ export const DetalhesFornecedor = () => {
   const [dataDeNascimento, setDataDeNascimento] = useState(new Date());
 
   const dataDeNascimentoFormatada = format(dataDeNascimento, "dd/MM/yyyy");
-
-  const validarEmail = useForm("email");
-  const validarInscricaoEstadual = useForm("inscricaoEstadual");
 
   // endereço
   const [CEP, setCEP] = useState("");
@@ -57,15 +53,16 @@ export const DetalhesFornecedor = () => {
     setinscricaoEstadual(empresa.inscricaoEstadual);
     setTelefone(empresa.numeroDeTelefone);
     setEmail(empresa.email);
+
     const dataNascimentoArray = empresa.dataDeNascimento;
-    const setNovaDataDeNascimento = () => {
+    if (dataNascimentoArray) {
       const novaDataDeNascimento = new Date(
         dataNascimentoArray[0],
-        dataNascimentoArray[1],
+        dataNascimentoArray[1] - 1,
         dataNascimentoArray[2]
       );
       setDataDeNascimento(novaDataDeNascimento);
-    };
+    }
 
     setCEP(empresa?.endereco?.cep);
     setCidade(empresa?.endereco?.cidade);
@@ -151,7 +148,7 @@ export const DetalhesFornecedor = () => {
       let data = JSON.stringify({
         cnpj: cnpj,
         razaoSocial: razaoSocial,
-        tipoDeEmpresa: 1, // 0 - cliente, 1 - fornecedor
+        tipoDeEmpresa: 0, // 0 - cliente, 1 - fornecedor
         inscricaoEstadual: inscricaoEstadual,
         numeroDeTelefone: telefone,
         email: email,
@@ -221,7 +218,7 @@ export const DetalhesFornecedor = () => {
     e.preventDefault();
   };
   return (
-    <form className={style.form} onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <ContainerFormulario titulo="Cliente">
         <Input
           label="Razão Social"

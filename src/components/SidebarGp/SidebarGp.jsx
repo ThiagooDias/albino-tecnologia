@@ -22,9 +22,9 @@ export const SidebarGp = ({ children }) => {
       icon: <DashboardIcon />,
     },
     {
-      path: "/gp/contrato",
-      name: "Contrato",
-      icon: <ContratoIcon width={32} fill={'#fff'} />,
+      path: "/gp/projeto",
+      name: "Projeto",
+      icon: <ProjetoIcon width={32} fill={'#fff'} />,
     },
     {
       path: "/gp/os",

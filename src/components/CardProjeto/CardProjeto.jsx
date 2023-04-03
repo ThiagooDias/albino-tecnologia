@@ -4,11 +4,11 @@ import { NavLink } from "react-router-dom";
 
 export const CardProjeto = ({ projeto, onClick }) => {
   let bg = "";
-  if (projeto.status === "Aberto") {
-    bg = "#31cfcf";
-  } else if (projeto.status === "Em execução") {
+  if (projeto.status === "ativo") {
+    bg = "#36A2EB";
+  } else if (projeto.status === "em andamento") {
     bg = "#d5c854";
-  } else if (projeto.status === "Finalizada") {
+  } else if (projeto.status === "concluido") {
     bg = "#43b647";
   }
 
@@ -20,8 +20,8 @@ export const CardProjeto = ({ projeto, onClick }) => {
           className={style.Card}
           onClick={onClick}
         >
-          <h3>{projeto.name}</h3>
-          <p>{projeto.status}</p>
+          <h3>{projeto.nome}</h3>
+          <p>{projeto.os.codigoDaOS}</p>
         </div>
       </NavLink>
     </div>

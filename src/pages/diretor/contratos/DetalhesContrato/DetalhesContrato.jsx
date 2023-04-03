@@ -1,14 +1,11 @@
 import { React, useState, useEffect } from "react";
 import axios from "axios";
-import { format } from "date-fns";
-import style from "./DetalhesContrato.module.css";
+import style from "./DetalhesContrato.module.css"
+import { useParams } from "react-router-dom";
 import { ContainerFormulario } from "../../../../components/Formulario/Formulario";
 import { Input } from "../../../../components/Input/Input";
-import { useParams } from "react-router-dom";
-import { Botao } from "../../../../components/Botao/Botao";
-import Modal from "../../../../components/Modal/Modal";
 
-export const DetalhesContrato = () => {
+export const DetalhesContratoDiretor = () => {
   const { id } = useParams();
   const [contrato, setContrato] = useState();
 
@@ -22,6 +19,9 @@ export const DetalhesContrato = () => {
   const [valorUnitario, setValorUnitario] = useState("");
   const [qtdDePontosFuncao, setQtdDePontosFuncao] = useState("");
   const [valorTotal, setValorTotal] = useState("");
+
+  const [gp, setGp] = useState("");
+
   const [idEmpresa, setIdEmpresa] = useState("");
   const [idResponsavel, setIdResponsavel] = useState("");
 
@@ -70,7 +70,10 @@ export const DetalhesContrato = () => {
     fetchData();
   }, []);
 
-  console.log(contrato);
+  console.log("contrato ",contrato);
+
+  const [userList, setUserList] = useState([]);
+
 
   useEffect(() => {
     setRazaoSocial(contrato?.empresa?.razaoSocial);
@@ -113,40 +116,14 @@ export const DetalhesContrato = () => {
     setTipoContrato(contrato?.tipoDeContrato[0]);
   }, [contrato]);
 
-  // MODAL
+
   const [isOpen, setIsOpen] = useState(false);
-  const handleOpenModal = (event) => {
-    setIsOpen(true);
-    preventDefault();
-  };
+
+  const handleOpenModal = () => setIsOpen(true);
   const handleCloseModal = () => setIsOpen(false);
 
-  // ADCIONA ADTIVO
-  function AdicionarAditivo() {
-    const Valor = async () => {
-      try {
-        const config = {
-          mode: "no-cors",
-          method: "put",
-          maxBodyLength: Infinity,
-          url: `http://34.16.131.174/api/v1/projeto/distribuir/username/${id}`,
-          headers: {
-            Authorization: credencial,
-            "Content-Type": "application/json",
-          },
-        };
-  
-        const response = await axios.request(config);
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-  }
-
   return (
-    <form className={style.form}>
+    <div>
       <ContainerFormulario titulo="Cliente">
         <Input
           label="Razaão Social"
@@ -182,7 +159,6 @@ export const DetalhesContrato = () => {
           id="dataInicial"
           value={dataInicial.toISOString().substr(0, 10)}
           required
-          disabled
           type={"date"}
           // onChange={({ target }) => setDataInicial(new Date(target.value))}
         />
@@ -259,66 +235,6 @@ export const DetalhesContrato = () => {
           />
         </div>
       </ContainerFormulario>
-
-      {/* <Botao
-        name={"ADITIVO"}
-        onClick={(event) => {
-          event.preventDefault();
-          setIsOpen(true);
-        }}
-      />
-
-      <Modal isOpen={isOpen} onClose={handleCloseModal}>
-        <h2 style={{ marginBottom: "8px", textAlign: "center" }}>
-          Adicione um aditivo ao contrato
-        </h2>
-        <Input
-          label="Valor"
-          id="qtdDePontosFuncao"
-          value={qtdDePontosFuncao}
-          required
-          onChange={({ target }) => setQtdDePontosFuncao(target.value)}
-        />
-        <div className={style.InputRadio}>
-          <p style={{ margin: "0" }}>Tipo do Contrato </p>
-          <label>
-            <input
-              className={style.input}
-              type="radio"
-              value="SERVICO"
-              checked={tipoContrato === "SERVICO"}
-              onChange={({ target }) => setTipoContrato(target.value)}
-            />
-            Serviço
-          </label>
-          <label>
-            <input
-              className={style.input}
-              type="radio"
-              value="PRODUTO"
-              checked={tipoContrato === "PRODUTO"}
-              onChange={({ target }) => setTipoContrato(target.value)}
-            />
-            Produto
-          </label>
-        </div>
-        <div>
-          <label htmlFor="descricao">Descrição</label>
-          <textarea
-            rows={10}
-            id="descricao"
-            value={descricao}
-            onChange={({ target }) => setDescricao(target.value)}
-          />
-        </div>        
-
-        <div className={style.GrupoBotoes}>
-          <button className={style.Cancelar} onClick={handleCloseModal}>
-            Cancelar
-          </button>
-          <button onClick={AdicionarAditivo}>Salvar</button>
-        </div>
-      </Modal> */}
-    </form>
+    </div>
   );
 };

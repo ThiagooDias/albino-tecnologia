@@ -1,0 +1,30 @@
+.Container {
+  display: grid;
+  justify-content: center;
+}
+
+.Dashboard {
+  margin: 20px;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 1fr 1fr;
+  max-width: 600px;
+  gap: 20px;
+}
+
+.Doughnut {
+  text-align: center;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  background-color: white;
+}
+
+.BarChart {
+  text-align: center;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  grid-column: 1 / -1;
+  background-color: white;
+}

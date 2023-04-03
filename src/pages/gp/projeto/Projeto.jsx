@@ -2,14 +2,11 @@ import { React, useState, useEffect } from "react";
 import axios from "axios";
 import { Lista } from "../../../components/Lista/Lista";
 
-export const ContratoGpp = () => {
+export const ProjetoGp = () => {
   const [userList, setUserList] = useState([]);
   // GET
   let usuario = localStorage.getItem("username");
   let password = localStorage.getItem("password");
-
-  usuario = "financeiro1";
-  password = "senha123";
 
   function gerarCredencialBase64(username, password) {
     var token = username + ":" + password;
@@ -24,9 +21,9 @@ export const ContratoGpp = () => {
         mode: "no-cors",
         method: "get",
         maxBodyLength: Infinity,
-        url: "http://34.16.131.174/api/v1/contrato",
+        url: "http://34.16.131.174/api/v1/projeto",
         headers: {
-          Authorization: credencial,
+          Authorization: "Basic Z3BwOnNlbmhhMTIz",
         },
       };
 
@@ -41,17 +38,15 @@ export const ContratoGpp = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getPosts();
-      const clientes = data; 
-      setUserList(clientes);
+      const projetosDistribuidos = data.filter(
+        (item) =>
+          item?.gerenteDeProjeto?.username === usuario &&
+          item.status === "em andamento"
+      );
+      setUserList(projetosDistribuidos);
     };
     fetchData();
   }, []);
 
-  return (
-    <Lista
-      titulo={"Lista de Contratos"}
-      lista={userList}
-      name={"codigoDoContrato"}
-    />
-  );
+  return <Lista titulo={"Lista de Contratos"} lista={userList} name={"nome"} />;
 };

@@ -7,7 +7,7 @@ export const Os = () => {
   return (
     <div className={style.container}>
         <BotaoContainer
-          name={"Cadastrar Os"}
+          name={"Abrir Os"}
           path={"/gp/os/cadastrar-os"}
         >
           <OsIcon width={48} fill={'#4D7BEB'}/>

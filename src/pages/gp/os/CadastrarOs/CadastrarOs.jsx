@@ -1,27 +1,28 @@
-import { React, useState } from "react";
-// import style from './CadastrarOs.module.css'
+import { React, useState, useEffect } from "react";
+import axios from "axios";
 import { ContainerFormulario } from "../../../../components/Formulario/Formulario";
 import { Input } from "../../../../components/Input/Input";
 import { Botao } from "../../../../components/Botao/Botao";
 
 export const CadastrarOs = () => {
-  const ListEmpresa = [
-    { id: 10000, name: "Empresa 1", contrato: 11111, responsavel: "joao" },
-    { id: 20000, name: "Empresa 2", contrato: 22222, responsavel: "pedro" },
-    { id: 30000, name: "Empresa 3", contrato: 33333, responsavel: "lucas" },
-  ];
-
   const [razaoSocial, setRazaoSocial] = useState("");
   const [cnpj, setCnpj] = useState("");
   const [responsavel, setResponsavel] = useState("");
   const [numeroContrato, setNumeroContrato] = useState("");
-  const [data, setData] = useState("");
   const [horas, setHoras] = useState("");
   const [pontosDeFuncao, setPontosDeFuncao] = useState("");
   const [descricao, setDescricao] = useState("");
-  const [empresaSelecionada, setEmpresaSelecionada] = useState({});
+  const [contratos, setContratos] = useState([]);
+  const [idEmpresa, setIdEmpresa] = useState("");
+  const [idContrato, setIdContrato] = useState();
+  const [idResponsavel, setIdResponsavel] = useState("");
 
-  // POST
+  const data = new Date();
+  const dia = data.getDate().toString().padStart(2, "0");
+  const mes = (data.getMonth() + 1).toString().padStart(2, "0");
+  const ano = data.getFullYear().toString();
+  const dataFormatada = `${dia}/${mes}/${ano}`;
+
   let usuario = localStorage.getItem("username");
   let password = localStorage.getItem("password");
 
@@ -32,20 +33,47 @@ export const CadastrarOs = () => {
   }
   const credencial = gerarCredencialBase64(usuario, password);
 
+  const getPosts = async () => {
+    try {
+      const config = {
+        mode: "no-cors",
+        method: "get",
+        maxBodyLength: Infinity,
+        url: "http://34.16.131.174/api/v1/contrato",
+        headers: {
+          Authorization: "Basic ZmluYW5jZWlybzE6c2VuaGExMjM=",
+        },
+      };
+
+      const response = await axios.request(config);
+      console.log("resposta ", response.data.content);
+      return response.data.content;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getPosts();
+      const contratosAtivos = data.filter((item) => item.status === "ativo");
+      setContratos(contratosAtivos);
+    };
+    fetchData();
+  }, []);
+
+  console.log("contratos ", contratos);
+
+  // POST
   const postOS = async () => {
     try {
       let data = JSON.stringify({
         descricao: descricao,
-        qtdDeHoras: {
-          hour: horas,
-          minute: 0,
-          second: 0,
-          nano: 0,
-        },
+        qtdDeHoras: `${horas}:00:00`,
+        idDoResponsavel: idResponsavel,
+        idDaEmpresa: idEmpresa,
         qtdPontosDeFuncao: pontosDeFuncao,
-        idDoResponsavel: 0,
-        idDaEmpresa: 0,
-        idDoContrato: 0,
+        dataDeAbertura: dataFormatada,
       });
 
       console.log(data);
@@ -53,7 +81,7 @@ export const CadastrarOs = () => {
         mode: "no-cors",
         method: "post",
         maxBodyLength: Infinity,
-        url: "http://34.16.131.174/api/v1/os",
+        url: `http://34.16.131.174/api/v1/os/${idContrato}`,
         headers: {
           "Content-Type": "application/json",
           Authorization: credencial,
@@ -83,33 +111,35 @@ export const CadastrarOs = () => {
     }
   }
 
-  function handleContatratoSelecionada(event) {
-    const empresaId = parseInt(event.target.value);
-    const empresa = ListEmpresa.find((empresa) => empresa.id === empresaId);
-
-    setEmpresaSelecionada(empresa);
-    setRazaoSocial(empresa.name);
-    setCnpj(empresa.id);
-    setNumeroContrato(empresa.contrato);
-    setResponsavel(empresa.responsavel);
+  function handleSelectChange(event) {
+    const idSelecionado = parseInt(event.target.value);
+    const contrato = contratos.find((item) => item.id === idSelecionado);
+    setRazaoSocial(contrato.empresa.razaoSocial);
+    setCnpj(contrato.empresa.cnpj);
+    setResponsavel(contrato.empresa.responsavel.nome);
+    setIdResponsavel(contrato.empresa.responsavel.id);
+    setIdContrato(idSelecionado);
+    setIdEmpresa(contrato.empresa.id)
+    setNumeroContrato(contrato.codigoDoContrato)
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <ContainerFormulario titulo="Ordem de serviço">
         <div>
-          <label htmlFor="razao-social">Contrato</label>
+          <label htmlFor="contrato">Contrato</label>
           <select
-            id="razao-social"
+            id="contrato"
             value={numeroContrato}
-            onChange={handleContatratoSelecionada}
+            onChange={handleSelectChange}
           >
             <option disabled value="">
               Selecione uma opção
             </option>
-            {ListEmpresa.map((empresa) => (
+
+            {contratos.map((empresa) => (
               <option key={empresa.id} value={empresa.id}>
-                {empresa.name}
+                {empresa.codigoDoContrato}
               </option>
             ))}
           </select>
@@ -137,20 +167,11 @@ export const CadastrarOs = () => {
         <Input
           label="Responsável"
           id="responsavel"
-          column="1 / 4"
+          column="1 / 3"
           value={responsavel}
           disabled
           required
           onChange={({ target }) => setResponsavel(target.value)}
-        />
-
-        <Input
-          label="Data"
-          id="data"
-          value={data}
-          required
-          type={"date"}
-          onChange={({ target }) => setData(target.value)}
         />
 
         <Input
