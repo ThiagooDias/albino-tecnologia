@@ -84,7 +84,7 @@ export const LoginPage = () => {
         <input
           className={style.input}
           autoComplete="username"
-          placeholder="E-mail"
+          placeholder="Username"
           value={userName}
           onChange={({ target }) => setUserName(target.value)}
         />

@@ -1,9 +1,11 @@
 import { React, useState, useEffect } from "react";
 import axios from "axios";
-import style from "./DetalhesContrato.module.css"
+import style from "./DetalhesContrato.module.css";
 import { useParams } from "react-router-dom";
 import { ContainerFormulario } from "../../../../components/Formulario/Formulario";
 import { Input } from "../../../../components/Input/Input";
+import { Botao } from "../../../../components/Botao/Botao";
+import { BotaoGerarRelatorio } from "../../../../components/gerarRelatorio/gerarRelatorio";
 
 export const DetalhesContratoDiretor = () => {
   const { id } = useParams();
@@ -35,6 +37,39 @@ export const DetalhesContratoDiretor = () => {
     return "Basic " + hash; // adiciona o prefixo "Basic" e retorna a credencial
   }
   const credencial = gerarCredencialBase64(usuario, password);
+
+  // GET
+  const getRelatorioContrato = async () => {
+    fetch(`http://34.16.131.174/api/v1/relatorio/contrato/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: credencial,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Não foi possível obter o relatório do contrato");
+        }
+        return response.blob();
+      })
+      .then((blob) => {
+        const url = URL.createObjectURL(blob);
+        window.open(url);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  async function gerarRelatorio() {
+    try {
+      const resultado = await getRelatorioContrato();
+      console.log(resultado);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   // GET
   const getContrato = async () => {
@@ -69,11 +104,6 @@ export const DetalhesContratoDiretor = () => {
     };
     fetchData();
   }, []);
-
-  console.log("contrato ",contrato);
-
-  const [userList, setUserList] = useState([]);
-
 
   useEffect(() => {
     setRazaoSocial(contrato?.empresa?.razaoSocial);
@@ -115,7 +145,6 @@ export const DetalhesContratoDiretor = () => {
     setDescricao(contrato?.descricoes);
     setTipoContrato(contrato?.tipoDeContrato[0]);
   }, [contrato]);
-
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -235,6 +264,9 @@ export const DetalhesContratoDiretor = () => {
           />
         </div>
       </ContainerFormulario>
+      <button style={{ margin: "16px auto" }} onClick={gerarRelatorio}>
+        RELATÓRIO
+      </button>
     </div>
   );
 };

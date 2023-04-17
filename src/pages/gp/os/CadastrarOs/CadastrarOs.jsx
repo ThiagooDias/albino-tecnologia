@@ -162,7 +162,7 @@ export const CadastrarOs = () => {
           value={cnpj}
           disabled
           required
-          placeholder="XX. XXX. XXX/XXXX-XX"
+          placeholder="XX.XXX.XXX/XXXX-XX"
           onChange={({ target }) => setCnpj(target.value)}
         />
 

@@ -19,6 +19,49 @@ export const DetalhesOsDiretor = () => {
   const [descricao, setDescricao] = useState("");
   const [status, setStatus] = useState("");
 
+   let usuario = localStorage.getItem("username");
+   let password = localStorage.getItem("password");
+ 
+   function gerarCredencialBase64(username, password) {
+     var token = username + ":" + password;
+     var hash = btoa(token); // codifica a string em Base64
+     return "Basic " + hash; // adiciona o prefixo "Basic" e retorna a credencial
+   }
+   const credencial = gerarCredencialBase64(usuario, password);
+ 
+    // GET
+    const getRelatorioContrato = async () => {
+      fetch(`http://34.16.131.174/api/v1/relatorio/os/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: credencial,
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Não foi possível obter o relatório do contrato");
+          }
+          return response.blob();
+        })
+        .then((blob) => {
+          const url = URL.createObjectURL(blob);
+          window.open(url);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
+  
+    async function gerarRelatorio() {
+      try {
+        const resultado = await getRelatorioContrato();
+        console.log(resultado);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
   const execetuarOs = async () => {
     try {
       const config = {
@@ -61,17 +104,7 @@ export const DetalhesOsDiretor = () => {
     }
   };
 
-  // GET
-  let usuario = localStorage.getItem("username");
-  let password = localStorage.getItem("password");
-
-  function gerarCredencialBase64(username, password) {
-    var token = username + ":" + password;
-    var hash = btoa(token); // codifica a string em Base64
-    return "Basic " + hash; // adiciona o prefixo "Basic" e retorna a credencial
-  }
-  const credencial = gerarCredencialBase64(usuario, password);
-
+ 
   const getPosts = async () => {
     try {
       const config = {
@@ -200,6 +233,9 @@ export const DetalhesOsDiretor = () => {
           />
         </div>
       </ContainerFormulario>
+      <button style={{ margin: "16px auto" }} onClick={gerarRelatorio}>
+        RELATÓRIO
+      </button>
     </div>
   );
 };
