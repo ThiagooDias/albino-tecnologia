@@ -1,15 +1,28 @@
-import {React, useRef} from "react";
+import React from "react";
+import InputMask from "react-input-mask";
 import style from "./Input.module.css";
 
-
-export const Input = ({ id, value, placeholder, label, column, required, onChange, onBlur, disabled, type, error}) => {
+export const Input = ({
+  id,
+  value,
+  placeholder,
+  label,
+  column,
+  required,
+  onChange,
+  onBlur,
+  disabled,
+  type,
+  mask,
+  error,
+}) => {
   return (
-    <div className={style.inputItem} style={{ gridColumn: column}} >
+    <div className={style.inputItem} style={{ gridColumn: column }}>
       <label className={style.label} htmlFor={id}>
         {label}
       </label>
-      <input
-        className={`${style.input} ${error ? style.inputError : ''}`}
+      <InputMask
+        className={`${style.input} ${error ? style.inputError : ""}`}
         id={id}
         name={id}
         value={value}
@@ -19,9 +32,9 @@ export const Input = ({ id, value, placeholder, label, column, required, onChang
         required={required}
         readOnly={disabled}
         type={type}
+        mask={mask}
       />
-      {error && <p style={{color: 'red'}}>{error}</p>}
-      
+      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 };

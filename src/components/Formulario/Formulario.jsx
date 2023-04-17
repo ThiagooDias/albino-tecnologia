@@ -1,7 +1,7 @@
-import React, { Children } from "react";
+import React from "react";
 import style from "./Formulario.module.css";
 
-export const ContainerFormulario = ({ children, titulo, ...rest }) => {
+export const ContainerFormulario = ({ children, titulo }) => {
     return (
       <div className={style.containerForm}>
         <div className={style.header}>

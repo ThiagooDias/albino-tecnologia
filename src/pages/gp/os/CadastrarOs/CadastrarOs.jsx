@@ -127,7 +127,7 @@ export const CadastrarOs = () => {
     <form onSubmit={handleSubmit}>
       <ContainerFormulario titulo="Ordem de serviço">
         <div>
-          <label htmlFor="contrato">Contrato</label>
+          <label htmlFor="contrato">Contrato*</label>
           <select
             id="contrato"
             value={numeroContrato}
@@ -147,53 +147,60 @@ export const CadastrarOs = () => {
 
         <Input
           column="2 / 4"
-          label="Razão Social"
+          label="Razão Social*"
           id="razaSocial"
           value={razaoSocial}
+          placeholder="Razão Social"
           disabled
           required
           // onChange={({ target }) => setNumeroContrato(target.value)}
         />
 
         <Input
-          label="CNPJ"
+          label="CNPJ*"
           id="cnpj"
           value={cnpj}
           disabled
           required
+          placeholder="XX. XXX. XXX/XXXX-XX"
           onChange={({ target }) => setCnpj(target.value)}
         />
 
         <Input
-          label="Responsável"
+          label="Responsável*"
           id="responsavel"
           column="1 / 3"
           value={responsavel}
+          placeholder="Responsável"
           disabled
           required
           onChange={({ target }) => setResponsavel(target.value)}
         />
 
         <Input
-          label="Qtd. Hora"
+          label="Qtd. Hora*"
           id="quantidadeHoras"
           value={horas}
+          type={"number"}
+          placeholder="0"
           required
           onChange={({ target }) => setHoras(target.value)}
         />
 
         <Input
-          label="Pontos de Função"
+          label="Pontos de Função*"
           id="pontosDeFuncao"
-          value={pontosDeFuncao}
+          value={horas * 5}
+          disabled
           required
           onChange={({ target }) => setPontosDeFuncao(target.value)}
         />
         <div style={{ gridColumn: "1/-1" }}>
-          <label htmlFor="descricao">Descrição</label>
+          <label htmlFor="descricao">Descrição*</label>
           <textarea
             rows={10}
             id="descricao"
+            placeholder="Digite a descrição"
             value={descricao}
             onChange={({ target }) => setDescricao(target.value)}
           />

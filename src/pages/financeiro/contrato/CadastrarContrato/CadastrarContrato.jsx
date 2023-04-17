@@ -18,11 +18,11 @@ export const CadastrarContrato = () => {
 
   const [valorUnitario, setValorUnitario] = useState(0);
   const [qtdDePontosFuncao, setQtdDePontosFuncao] = useState(0);
-  const [valorTotal, setValorTotal] = useState(0)
-  const [valorTotalFormatado, setValorTotalFormatado] = useState("")
-  
+  const [valorTotal, setValorTotal] = useState(0);
+  const [valorTotalFormatado, setValorTotalFormatado] = useState("");
+
   const [descricao, setDescricao] = useState("");
-  
+
   const [idEmpresa, setIdEmpresa] = useState("");
   const [idResponsavel, setIdResponsavel] = useState("");
 
@@ -146,34 +146,43 @@ export const CadastrarContrato = () => {
       setValorUnitario(novoValor1);
       const novoValorTotal = novoValor1 * qtdDePontosFuncao;
       setValorTotal(novoValorTotal);
-      setValorTotalFormatado(novoValorTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }));
+      setValorTotalFormatado(
+        novoValorTotal.toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        })
+      );
     } else {
       setValorUnitario(0);
       setValorTotal(0);
       setValorTotalFormatado("");
     }
   }
-  
+
   function handleQtdDeFuncaoChange(event) {
     const novoValor2 = parseFloat(event.target.value);
     if (!isNaN(novoValor2)) {
       setQtdDePontosFuncao(novoValor2);
       const novoValorTotal = valorUnitario * novoValor2;
       setValorTotal(novoValorTotal);
-      setValorTotalFormatado(novoValorTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }));
+      setValorTotalFormatado(
+        novoValorTotal.toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        })
+      );
     } else {
       setQtdDePontosFuncao(0);
       setValorTotal(0);
       setValorTotalFormatado("");
     }
   }
-  
 
   return (
     <form className={style.form} onSubmit={handleSubmit}>
       <ContainerFormulario titulo="Cliente">
         <div style={{ gridColumn: "1 /4" }}>
-          <label htmlFor="razao-social">Razão Social</label>
+          <label htmlFor="razao-social">Razão Social*</label>
           <select
             id="razao-social"
             value={razaoSocial}
@@ -192,26 +201,29 @@ export const CadastrarContrato = () => {
         </div>
 
         <Input
-          label="CNPJ"
+          label="CNPJ*"
           id="cnpj"
           value={cnpj}
           required
           disabled
+          placeholder="XX.XXX.XXX/XXXX-XX"
+          mask="99.999.999/9999-99"
           onChange={({ target }) => setCnpj(target.value)}
         />
 
         <Input
-          label="Responsável"
+          label="Responsável*"
           id="responsavel"
           column="1 / 3"
           value={responsavel}
+          placeholder="Nome do resposável"
           disabled
           required
           onChange={({ target }) => setResponsavel(target.value)}
         />
 
         <Input
-          label="Data Inicial"
+          label="Data Inicial*"
           id="dataInicial"
           value={dataInicial.toISOString().substr(0, 10)}
           required
@@ -231,7 +243,7 @@ export const CadastrarContrato = () => {
 
       <ContainerFormulario titulo="Contrato">
         <div className={style.InputRadio}>
-          <p style={{ margin: "0" }}>Tipo do Contrato </p>
+          <p style={{ margin: "0" }}>Tipo do Contrato*</p>
           <label>
             <input
               className={style.input}
@@ -254,7 +266,7 @@ export const CadastrarContrato = () => {
           </label>
         </div>
         <Input
-          label="Valor Unitário"
+          label="Valor Unitário*"
           id="valorUnitario"
           type="number"
           value={valorUnitario}
@@ -263,7 +275,7 @@ export const CadastrarContrato = () => {
         />
 
         <Input
-          label="Qtd. de pontos de função"
+          label="Qtd. de pontos de função*"
           id="qtdDePontosFuncao"
           type="number"
           value={qtdDePontosFuncao}
@@ -271,18 +283,19 @@ export const CadastrarContrato = () => {
           onChange={handleQtdDeFuncaoChange}
         />
         <Input
-          label="Valor Total do Contrato"
+          label="Valor Total do Contrato*"
           id="valorTotal"
           value={valorTotalFormatado}
-          // type="number"
+          placeholder="R$ 0,00"
           required
           disabled
         />
         <div style={{ gridColumn: "1/-1" }}>
-          <label htmlFor="descricao">Descrição</label>
+          <label htmlFor="descricao">Descrição*</label>
           <textarea
             rows={10}
             id="descricao"
+            placeholder="Digite a descrição do contrato"
             value={descricao}
             onChange={({ target }) => setDescricao(target.value)}
           />

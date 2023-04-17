@@ -58,6 +58,7 @@ import { DetalhesContratoDiretor } from "../pages/diretor/contratos/DetalhesCont
 import { DetalhesFornecedorDiretor } from "../pages/diretor/fornecedores/DetalhesFornecedorDiretor";
 import { DetalhesOsDiretor } from "../pages/diretor/os/DetalhesOsDiretor";
 import { DetalhesProjetoDiretor } from "../pages/diretor/projetos/DetalhesProjetoDiretor";
+import { AlterarSenha } from "../pages/admin/AlterarSenha/AlterarSenha";
 
 export function RoutesApp() {
   return (
@@ -71,6 +72,7 @@ export function RoutesApp() {
             element={<CadastrarUsuarios />}
           />
           <Route path="/admin/usuarios" element={<VerUsuario />} />
+          <Route path="/admin/alterar-senha" element={<AlterarSenha />} />
           <Route path="/admin/usuarios/:id" element={<DetalhesUsuario />} />
         </Route>
 

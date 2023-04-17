@@ -7,16 +7,16 @@ import style from "./NovoProjeto.module.css";
 import { format } from "date-fns";
 
 export const NovoProjeto = () => {
-  const [numeroOs, setNumeroOs] = useState("")
+  const [numeroOs, setNumeroOs] = useState("");
   const [nome, setNome] = useState("");
   const [responsavel, setResponsavel] = useState("");
   const [dataInicial, setDataInicial] = useState(new Date());
   const [dataFinal, setDataFinal] = useState(new Date());
   const [descricao, setDescricao] = useState("");
-  const [osList, setOsList] = useState([]) 
+  const [osList, setOsList] = useState([]);
   const [idResponsavel, setIdResponsavel] = useState("");
-  const [idOS, setIdOs] = useState("")
-  
+  const [idOS, setIdOs] = useState("");
+
   // GET
   let usuario = localStorage.getItem("username");
   let password = localStorage.getItem("password");
@@ -51,12 +51,11 @@ export const NovoProjeto = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getPosts();
-      const OsEmExecucao = data.filter(item => item.status === 'em execucao')
+      const OsEmExecucao = data.filter((item) => item.status === "em execucao");
       setOsList(OsEmExecucao);
     };
     fetchData();
   }, []);
-
 
   // POST
   const postProjeto = async () => {
@@ -109,22 +108,17 @@ export const NovoProjeto = () => {
     const idSelecionado = parseInt(event.target.value);
     const os = osList.find((item) => item.id === idSelecionado);
     setResponsavel(os.contrato.empresa.responsavel.nome);
-    setNumeroOs(os.codigoDaOS)
-    setIdOs(os.id)
-    setIdResponsavel(os.contrato.empresa.responsavel.id)
-
+    setNumeroOs(os.codigoDaOS);
+    setIdOs(os.id);
+    setIdResponsavel(os.contrato.empresa.responsavel.id);
   };
 
   return (
     <form className={style.form} onSubmit={handleSubmit}>
       <ContainerFormulario titulo="Projeto">
-      <div >
-          <label htmlFor="os">Ordem de serviço</label>
-          <select
-            id="os"
-            value={numeroOs}
-            onChange={handleSelectChange}
-          >
+        <div>
+          <label htmlFor="os">Ordem de serviço*</label>
+          <select id="os" value={numeroOs} onChange={handleSelectChange}>
             <option disabled value="">
               Selecione uma opção
             </option>
@@ -138,25 +132,28 @@ export const NovoProjeto = () => {
         </div>
 
         <Input
-          label="Nome"
+          label="Nome*"
           id="nome"
           column="2 / -1"
+          placeholder="Digite o nome do projeto"
           value={nome}
           required
           onChange={({ target }) => setNome(target.value)}
         />
 
         <Input
-          label="Responsável"
+          label="Responsável*"
           id="responsavel"
           column="1 / 3"
+          placeholder="Nome do resposável"
           value={responsavel}
           required
+          disabled
           onChange={({ target }) => setResponsavel(target.value)}
         />
 
         <Input
-          label="Data inicial"
+          label="Data inicial*"
           id="data_inicial"
           value={dataInicial.toISOString().substr(0, 10)}
           type="date"
@@ -165,7 +162,7 @@ export const NovoProjeto = () => {
         />
 
         <Input
-          label="Data final"
+          label="Data final*"
           id="data_final"
           value={dataFinal.toISOString().substr(0, 10)}
           type="date"
@@ -174,10 +171,11 @@ export const NovoProjeto = () => {
         />
 
         <div style={{ gridColumn: "1/-1" }}>
-          <label htmlFor="descricao">Descrição</label>
+          <label htmlFor="descricao">Descrição*</label>
           <textarea
             rows={10}
             id="descricao"
+            placeholder="Digite a descrição do contrato"
             value={descricao}
             onChange={({ target }) => setDescricao(target.value)}
           />

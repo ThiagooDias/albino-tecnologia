@@ -14,8 +14,6 @@ export const CadastrarUsuarios = () => {
   const [senha, setSenha] = useState("");
   const [tipoUsuario, setTipoUsuario] = useState("");
 
-  
-
   // POST
   let usuario = localStorage.getItem("username");
   let password = localStorage.getItem("password");
@@ -75,42 +73,46 @@ export const CadastrarUsuarios = () => {
     <form className={style.form} onSubmit={handleSubmit}>
       <ContainerFormulario titulo="Usuário">
         <Input
-          label="Nome"
+          label="Nome*"
           id="nome"
           column="1 / 3"
           value={nome}
           required
+          placeholder="Digite o nome do usuário"
           onChange={({ target }) => setNome(target.value)}
         />
 
         <Input
-          label="User name"
+          label="User name*"
           id="userName"
           column="3 / -1"
+          placeholder="Digite o user name"
           value={userName}
           required
           onChange={({ target }) => setUserName(target.value)}
         />
 
         <Input
-          label="Email"
+          label="Email*"
           id="email"
           value={email}
+          placeholder="exemplo@exemplo.com"
           required
           onChange={({ target }) => setEmail(target.value)}
           column="1 / 3"
         />
 
         <Input
-          label="Senha"
+          label="Senha*"
           id="senha"
           value={senha}
+          placeholder="Digite a senha"
           required
           onChange={({ target }) => setSenha(target.value)}
         />
 
         <div>
-          <label htmlFor="tipousuario">Tipo de Usuário</label>
+          <label htmlFor="tipousuario">Tipo de Usuário*</label>
           <select
             required
             className={style.select}

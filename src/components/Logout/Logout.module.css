@@ -1,0 +1,16 @@
+.Logout {
+    position: absolute;
+    bottom: 0;
+}
+
+.Link{
+    display: flex;
+    color: #fff;
+    padding: 10px 15px;
+    gap: 15px;
+    font-size: 18px;
+
+    display: flex;
+    align-items: center;
+}
+

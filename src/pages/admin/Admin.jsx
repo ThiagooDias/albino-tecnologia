@@ -16,6 +16,10 @@ export const Admin = () => {
         <BotaoContainer name={"Ver usuários"} path={"/admin/usuarios"}>
           <UserIcon />
         </BotaoContainer>
+
+        <BotaoContainer name={"Alterar senha"} path={"/admin/alterar-senha"}>
+          <UserIcon />
+        </BotaoContainer>
       </div>
 
   );

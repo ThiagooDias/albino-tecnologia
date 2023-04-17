@@ -16,7 +16,6 @@ export const DetalhesProjeto = () => {
   const [dataFinal, setDataFinal] = useState(new Date());
   const [descricao, setDescricao] = useState("");
   const [status, setStatus] = useState("")
-  const [gp, setGp] = useState("");
   const [usernameGp, setUsernameGp] = useState("");
 
   // GET
@@ -84,7 +83,6 @@ export const DetalhesProjeto = () => {
 
   // GET - gp
   const [GpList, setGpList] = useState([]);
-  console.log("gp", GpList);
   const getUsuarios = async () => {
     try {
       const config = {

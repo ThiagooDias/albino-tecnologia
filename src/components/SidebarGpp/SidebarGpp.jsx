@@ -11,6 +11,7 @@ import { FornecedorIcon } from "../../assests/icons/FornecedorIcon";
 import { OsIcon } from "../../assests/icons/OsIcon";
 import { ProjetoIcon } from "../../assests/icons/ProjetoIcon";
 import { Logo } from "../Logo/Logo";
+import { Logout } from "../Logout/Logout";
 
 export const SidebarGpp = ({ children }) => {
   const [menuActive, setMenuActive] = useState("Dashboard");
@@ -52,6 +53,7 @@ export const SidebarGpp = ({ children }) => {
             <div className={style.link_text}>{item.name}</div>
           </NavLink>
         ))}
+        <Logout />
       </div>
         <div className={style.topbar}>
           <Logo />

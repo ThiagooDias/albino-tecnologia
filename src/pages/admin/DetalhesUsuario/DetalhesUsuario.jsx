@@ -209,7 +209,7 @@ export const DetalhesUsuario = () => {
             disabled={!isEditing}
             label="Nome"
             id="nome"
-            column="1 / 4"
+            column="1 / 3"
             value={nome}
             required
             onChange={({ target }) => setNome(target.value)}
@@ -221,6 +221,7 @@ export const DetalhesUsuario = () => {
             id="username"
             value={userName}
             required
+            column="3 / -1"
             onChange={({ target }) => setUserName(target.value)}
           />
 
@@ -235,18 +236,10 @@ export const DetalhesUsuario = () => {
           />
 
           <Input
-            disabled={!isEditing}
-            label="Senha"
-            id="senha"
-            value={senha}
-            required
-            onChange={({ target }) => setSenha(target.value)}
-          />
-
-          <Input
             disabled
             label="Tipo"
             id="tipo"
+            column={"3/-1"}
             value={tipoUsuario}
             onChange={({ target }) => setTipoUsuario(target.value)}
           />
@@ -255,7 +248,7 @@ export const DetalhesUsuario = () => {
           {isEditing ? (
             <>
               <button className={style.Deletar} onClick={handleDelete}>
-                Deteletar
+                Deletar
               </button>
 
               <button onClick={handleCancel}>
